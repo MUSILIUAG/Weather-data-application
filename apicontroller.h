@@ -13,7 +13,7 @@ public:
     APIController();
 
     // Method to display weather data
-    void fetchWeatherData();
+    void fetchWeatherData(double latitude, double longitude);
 
     // Public member function for writing data callback
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, std::string *buffer);

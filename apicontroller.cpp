@@ -3,10 +3,7 @@
 #include <curl/curl.h>
 #include <jsoncpp/json/json.h> // Include the JSONCPP header
 
-APIController::APIController()
-{
-
-}
+APIController::APIController(){}
 
 size_t APIController::WriteCallback(void *contents, size_t size, size_t nmemb, std::string *buffer) {
     size_t totalSize = size * nmemb;
@@ -14,16 +11,19 @@ size_t APIController::WriteCallback(void *contents, size_t size, size_t nmemb, s
     return totalSize;
 }
 
-void APIController::fetchWeatherData() {
+void APIController::fetchWeatherData(double latitude, double longitude) {
     CURL *curl;
     CURLcode res;
     std::string apiResponse;
+    std::string latitudeAsString = std::to_string(latitude);
+    std::string longitudeAsString = std::to_string(longitude);
+
 
     // Initialize cURL session
     curl = curl_easy_init();
     if (curl) {
         // Set the URL to make the GET request
-        curl_easy_setopt(curl, CURLOPT_URL, "https://api.open-meteo.com/v1/forecast?latitude=11.7302&longitude=104.4868&hourly=temperature_2m&forecast_days=1");
+        curl_easy_setopt(curl, CURLOPT_URL, "https://api.open-meteo.com/v1/forecast?latitude="+ latitudeAsString +"&longitude="+ longitudeAsString +"&hourly=temperature_2m&forecast_days=1");
 
         // Set the callback function to receive data
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &APIController::WriteCallback);

@@ -1,9 +1,7 @@
 #include <iostream>
 #include <vector>
-#include <map>
 #include <set>
 #include "debugaid.h"
-
 
 template<typename T>
 void print(const std::vector<T>& vec) {
@@ -14,14 +12,6 @@ void print(const std::vector<T>& vec) {
     std::cout << std::endl;
 }
 
-template<typename Key, typename Value>
-void print(const std::map<Key, Value>& mp) {
-    std::cout << "Map: ";
-    for (const auto& pair : mp) {
-        std::cout << "{" << pair.first << ": " << pair.second << "} ";
-    }
-    std::cout << std::endl;
-}
 
 template<typename T>
 void print(const std::set<T>& st) {

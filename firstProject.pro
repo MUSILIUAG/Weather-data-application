@@ -7,11 +7,13 @@ LIBS += -ljsoncpp -lcurl
 SOURCES += \
         apicontroller.cpp \
         debugaid.cpp \
+        locationmanager.cpp \
         main.cpp \
         uicontroller.cpp
 
 HEADERS += \
     apicontroller.h \
     debugaid.h \
+    locationmanager.h \
     uicontroller.h
 

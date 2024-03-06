@@ -7,7 +7,6 @@ class UIcontroller
 public:
     UIcontroller();
     void start();
-    void addLocation();
 };
 
 #endif // UICONTROLLER_H
