@@ -11,19 +11,20 @@ size_t APIController::WriteCallback(void *contents, size_t size, size_t nmemb, s
     return totalSize;
 }
 
-void APIController::fetchWeatherData(double latitude, double longitude) {
+void APIController::fetchWeatherData(std::pair<double, double> credentials) {
     CURL *curl;
     CURLcode res;
     std::string apiResponse;
-    std::string latitudeAsString = std::to_string(latitude);
-    std::string longitudeAsString = std::to_string(longitude);
+    std::string latitudeAsString = std::to_string(credentials.first);
+    std::string longitudeAsString = std::to_string(credentials.second);
+    std::string url = "https://api.open-meteo.com/v1/forecast?latitude="+ latitudeAsString +"&longitude="+ longitudeAsString +"&hourly=temperature_2m&forecast_days=1";
 
 
     // Initialize cURL session
     curl = curl_easy_init();
     if (curl) {
         // Set the URL to make the GET request
-        curl_easy_setopt(curl, CURLOPT_URL, "https://api.open-meteo.com/v1/forecast?latitude="+ latitudeAsString +"&longitude="+ longitudeAsString +"&hourly=temperature_2m&forecast_days=1");
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 
         // Set the callback function to receive data
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &APIController::WriteCallback);

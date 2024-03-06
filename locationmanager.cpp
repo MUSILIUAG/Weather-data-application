@@ -38,14 +38,16 @@ void locationManager::addLocation()
    std::string name;
    std::cin>>name;
 
-   std::cout<<"Longitude: ";
-   double Longitude;
-   std::cin>>Longitude;
-
    std::cout<<"Latitude: ";
    double Latitude;
    std::cin>>Latitude;
 
-   Location[name].push_back({Longitude,Latitude});
+   std::cout<<"Longitude: ";
+   double Longitude;
+   std::cin>>Longitude;
+
+
+
+   Location[name].push_back({Latitude,Longitude});
 }
 

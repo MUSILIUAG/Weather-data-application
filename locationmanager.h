@@ -9,10 +9,10 @@
 
 class locationManager
 {
-private:
+public:
     std::unordered_map<std::string, std::vector<std::pair<double, double>>>Location; // format name {longitude , latitude}
 
-public:
+
     locationManager();
     void start();
     void addLocation();
