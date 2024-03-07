@@ -14,6 +14,6 @@
 int main()
 {
     UIcontroller ui;
-    ui.start();
+    ui.loadMainMenu();
     return 0;
 }

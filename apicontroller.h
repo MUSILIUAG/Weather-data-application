@@ -2,6 +2,8 @@
 #define APICONTROLLER_H
 
 #include <string>
+#include <jsoncpp/json/json.h>
+
 
 // Forward declaration for CURL type
 typedef void CURL;
@@ -13,7 +15,7 @@ public:
     APIController();
 
     // Method to display weather data
-    void fetchWeatherData(std::pair<double, double> credentials);
+    Json::Value fetchWeatherData(std::pair<double, double> credentials);
 
     // Public member function for writing data callback
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, std::string *buffer);

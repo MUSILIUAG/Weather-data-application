@@ -9,11 +9,13 @@ SOURCES += \
         debugaid.cpp \
         locationmanager.cpp \
         main.cpp \
-        uicontroller.cpp
+        uicontroller.cpp \
+        weatherdatamanager.cpp
 
 HEADERS += \
     apicontroller.h \
     debugaid.h \
     locationmanager.h \
-    uicontroller.h
+    uicontroller.h \
+    weatherdatamanager.h
 

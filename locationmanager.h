@@ -10,12 +10,15 @@
 class locationManager
 {
 public:
-    std::unordered_map<std::string, std::vector<std::pair<double, double>>>Location; // format name {longitude , latitude}
+    std::unordered_map<std::string, std::vector<std::pair<double, double>>>Location{
+        {"Lagos",{{6.4541,3.3947}}}
+    }; // format name {latitude, longitude}
 
 
     locationManager();
-    void start();
+    void loadLocationMenu();
     void addLocation();
+    void removeLocation();
 };
 
 #endif // LOCATIONMANAGER_H
