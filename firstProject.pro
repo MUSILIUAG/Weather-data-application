@@ -10,6 +10,7 @@ SOURCES += \
         locationmanager.cpp \
         main.cpp \
         uicontroller.cpp \
+        usersettings.cpp \
         weatherdatamanager.cpp
 
 HEADERS += \
@@ -17,5 +18,6 @@ HEADERS += \
     debugaid.h \
     locationmanager.h \
     uicontroller.h \
+    usersettings.h \
     weatherdatamanager.h
 

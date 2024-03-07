@@ -7,7 +7,7 @@
 #include <utility>
 
 
-class locationManager
+class LocationManager
 {
 public:
     std::unordered_map<std::string, std::vector<std::pair<double, double>>>Location{
@@ -15,7 +15,7 @@ public:
     }; // format name {latitude, longitude}
 
 
-    locationManager();
+    LocationManager();
     void loadLocationMenu();
     void addLocation();
     void removeLocation();

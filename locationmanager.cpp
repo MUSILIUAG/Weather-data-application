@@ -5,13 +5,13 @@
 #include <vector>
 #include <utility>
 #include "debugaid.h"
-locationManager::locationManager(){
+LocationManager::LocationManager(){
 
 }
 
-void locationManager::loadLocationMenu()
+void LocationManager::loadLocationMenu()
 {
-    std::cout<<"<<<LOCATION MENU>>>"<<std::endl;
+    std::cout<< "\n" << "<<<LOCATION MENU>>>" <<std::endl;
     std::cout<<"1 - ADD LOCATION"<<std::endl;
     std::cout<<"2 - MODIFY LOCATION"<<std::endl;
     std::cout<<"3 - REMOVE LOCATION \n"<<std::endl;
@@ -35,7 +35,7 @@ void locationManager::loadLocationMenu()
 }
 
 
-void locationManager::addLocation()
+void LocationManager::addLocation()
 {
    std::cout<<"Location name: ";
    std::string name;
@@ -53,7 +53,7 @@ void locationManager::addLocation()
 }
 
 
-void locationManager::removeLocation()
+void LocationManager::removeLocation()
 {
     for (const auto& loc : Location) // prints out all saved locations
     {
@@ -61,7 +61,7 @@ void locationManager::removeLocation()
     }
 
 
-   std::cout<<"Location name: ";
+   std::cout<<"Location ame: ";
    std::string name;
    std::cin>>name;
 
