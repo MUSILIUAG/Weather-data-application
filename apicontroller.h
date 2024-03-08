@@ -5,6 +5,7 @@
 #include <jsoncpp/json/json.h>
 
 
+
 // Forward declaration for CURL type
 typedef void CURL;
 

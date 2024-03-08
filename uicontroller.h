@@ -1,9 +1,11 @@
 #ifndef UICONTROLLER_H
 #define UICONTROLLER_H
 #include "locationmanager.h"
+#include "usersettings.h"
 
 
 extern LocationManager location;
+extern UserSettings userSettings;
 
 class UIcontroller
 {

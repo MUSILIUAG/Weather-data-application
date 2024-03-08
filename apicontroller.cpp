@@ -2,6 +2,12 @@
 #include <iostream>
 #include <curl/curl.h>
 #include <jsoncpp/json/json.h>
+#include "usersettings.h"
+
+
+
+
+extern UserSettings userSettings;
 
 APIController::APIController(){}
 
@@ -17,7 +23,11 @@ Json::Value APIController::fetchWeatherData(std::pair<double, double> credential
     std::string apiResponse;
     std::string latitudeAsString = std::to_string(credentials.first);
     std::string longitudeAsString = std::to_string(credentials.second);
-    std::string url = "https://api.open-meteo.com/v1/forecast?latitude=" + latitudeAsString + "&longitude=" + longitudeAsString + "&hourly=temperature_2m,relative_humidity_2m,precipitation_probability&forecast_days=1";
+    std::string url = "https://api.open-meteo.com/v1/forecast?latitude=" + latitudeAsString +
+                      "&longitude=" + longitudeAsString +
+                      "&hourly=temperature_2m,relative_humidity_2m,precipitation_probability" +
+                      "&daily=&temperature_unit="+ userSettings.currentTemperatureUnit +"&wind_speed_unit="+ userSettings.currentWindSpeedUnit +
+                      "&precipitation_unit="+userSettings.currentPercipitationUnit+"&forecast_days="+userSettings.dayRange;
 
 
     // Initialize cURL session

@@ -41,6 +41,7 @@ void UIcontroller::loadMainMenu()
             loadMainMenu();
             break;
         case 4:
+
             break; //Exit the program
 
         default:
