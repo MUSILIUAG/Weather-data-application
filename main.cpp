@@ -11,3 +11,4 @@ int main()
     ui.loadMainMenu();
     return 0;
 }
+//add default program flow to all switch statements

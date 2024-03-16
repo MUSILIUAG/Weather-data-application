@@ -22,7 +22,7 @@ void UserSettings::loadUserSettingsMenu()
         case 2:
             std::cout<<"choose day range: ";
             std::cin>>choice;
-            dayRange = std::to_string(choice);
+            dayRange = std::to_string(choice); //changes day range to what the user types in
 
 
     }

@@ -3,6 +3,8 @@
 #include <curl/curl.h>
 #include <jsoncpp/json/json.h>
 #include "usersettings.h"
+#include <firebase/app.h>
+#include <firebase/firestore.h>
 
 
 
@@ -52,28 +54,7 @@ Json::Value APIController::fetchWeatherData(std::pair<double, double> credential
             Json::Reader jsonReader;
             if (jsonReader.parse(apiResponse, jsonRoot)) {
                 // Process JSON data as needed
-                if (jsonRoot.isObject()) {
-//                    // Example: Extract coordinates
-//                    if (jsonRoot.isMember("latitude") && jsonRoot["latitude"].isDouble() &&
-//                        jsonRoot.isMember("longitude") && jsonRoot["longitude"].isDouble()) {
-//                        double latitude = jsonRoot["latitude"].asDouble();
-//                        double longitude = jsonRoot["longitude"].asDouble();
-//                        std::cout << "Coordinates: " << latitude << "°N, " << longitude << "°E" << std::endl;
-//                    }
-
-//                    // Example: Extract hourly temperature data
-//                    if (jsonRoot.isMember("hourly") && jsonRoot["hourly"].isObject() &&
-//                        jsonRoot["hourly"].isMember("temperature_2m") && jsonRoot["hourly"]["temperature_2m"].isArray()) {
-//                        const auto& hourlyData = jsonRoot["hourly"]["temperature_2m"];
-//                        for (const auto& entry : hourlyData) {
-//                            if (entry.isDouble()) {
-//                                double temperature = entry.asDouble();
-//                                std::cout << "Hourly temperature: " << temperature << std::endl;
-//                            }
-//                        }
-//                    }
-                return jsonRoot;
-                }
+                if (jsonRoot.isObject()) return jsonRoot;
             }
             else
             {
@@ -86,4 +67,43 @@ Json::Value APIController::fetchWeatherData(std::pair<double, double> credential
         curl_easy_cleanup(curl);
     }
     return Json::Value();
+}
+
+
+void APIController::test()
+{
+// Initialize Firebase
+firebase::AppOptions options;
+options.set_database_url("https://your-project-id.firebaseio.com");
+firebase::App* app = firebase::App::Create(options);
+
+// Initialize Firestore
+firebase::firestore::Firestore* firestore = firebase::firestore::Firestore::GetInstance(app);
+
+// Create a document reference
+firebase::firestore::CollectionReference collection = firestore->Collection("your_collection");
+
+// Convert JSON data to a map
+std::map<std::string, firebase::firestore::FieldValue> data;
+data["key1"] = firebase::firestore::FieldValue::String("value1");
+data["key2"] = firebase::firestore::FieldValue::String("value2");
+
+// Add the data to Firestore
+collection.Add(data).OnCompletion([](const firebase::Future<firebase::firestore::DocumentReference>& future) {
+    if (future.error() == firebase::firestore::kErrorNone) {
+        std::cout << "Data added successfully" << std::endl;
+    } else {
+        std::cerr << "Error adding data to Firestore: " << future.error_message() << std::endl;
+    }
+});
+
+// Wait for the operation to complete
+while (!collection.is_valid()) {
+    // Handle other events while waiting
+}
+
+// Cleanup
+delete firestore;
+delete app;
+
 }

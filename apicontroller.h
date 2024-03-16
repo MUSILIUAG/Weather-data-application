@@ -21,6 +21,8 @@ public:
     // Public member function for writing data callback
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, std::string *buffer);
 
+    void test();
+
 private:
     // Private member variable for cURL handle
     CURL *curlHandle;

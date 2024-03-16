@@ -52,9 +52,16 @@ void WeatherDataManager::displayWeatherData()
 
         const auto& hourlyKey = weatherDataJson["hourly"];
         const auto& timeKeyValue = weatherDataJson["hourly"]["time"];
+        int forecastDays = 1;
         for(unsigned int i = 0; i < timeKeyValue.size(); i++)
         {
-            std::cout<< "\n" << "Time: "<<timeKeyValue[i].asString()<<std::endl; // prints the time first
+            if(i == 0 || i%24 == 0)
+            {
+                std::cout<<"\n"<<"<<< DAY: "<<forecastDays<<" >>>"<<std::endl; // Prints out what days forecast is being displayed
+                forecastDays++; //changes the day to the next day
+            }
+
+            std::cout<< "\n" << "Time: "<<timeKeyValue[i].asString()<<std::endl; // prints the time
             for (const auto& key : keyList)
             {
                 std::string keyToWeatherVariable = weatherVariables[std::stoi(key)-1]; //converts the keys to an index so access the indexed weather variable
