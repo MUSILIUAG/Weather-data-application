@@ -30,6 +30,10 @@ void LocationManager::loadLocationMenu()
     case 3:
         removeLocation();
         break;
+    default:
+        std::cout << "Invalid command. Please Try again \n" << std::endl;
+        loadLocationMenu();
+        break;
     }
 
 }

@@ -5,6 +5,9 @@
 #include "usersettings.h"
 #include <firebase/app.h>
 #include <firebase/firestore.h>
+#include "weatherdatamanager.h"
+
+extern WeatherDataManager weatherData;
 
 
 
@@ -70,40 +73,40 @@ Json::Value APIController::fetchWeatherData(std::pair<double, double> credential
 }
 
 
-void APIController::test()
-{
-// Initialize Firebase
-firebase::AppOptions options;
-options.set_database_url("https://your-project-id.firebaseio.com");
-firebase::App* app = firebase::App::Create(options);
+//void APIController::test() {
+//    // Initialize Firebase
+//    firebase::AppOptions options;
+//    options.set_database_url("https://your-project-id.firebaseio.com");
+//    firebase::App::Create(options);
 
-// Initialize Firestore
-firebase::firestore::Firestore* firestore = firebase::firestore::Firestore::GetInstance(app);
+//    // Access the Firestore instance
+//    firebase::firestore::Firestore* firestore = firebase::firestore::Firestore::GetInstance();
 
-// Create a document reference
-firebase::firestore::CollectionReference collection = firestore->Collection("your_collection");
+//    // Parse the JSON data from weatherData.weatherDataJson
+//    Json::Value jsonData = weatherData.weatherDataJson; // Assuming weatherData is an instance of WeatherDataManager
 
-// Convert JSON data to a map
-std::map<std::string, firebase::firestore::FieldValue> data;
-data["key1"] = firebase::firestore::FieldValue::String("value1");
-data["key2"] = firebase::firestore::FieldValue::String("value2");
+//    // Create a map to hold the weather data
+//    firebase::firestore::MapFieldValue weatherDataFirestore;
 
-// Add the data to Firestore
-collection.Add(data).OnCompletion([](const firebase::Future<firebase::firestore::DocumentReference>& future) {
-    if (future.error() == firebase::firestore::kErrorNone) {
-        std::cout << "Data added successfully" << std::endl;
-    } else {
-        std::cerr << "Error adding data to Firestore: " << future.error_message() << std::endl;
-    }
-});
+//    // Assuming the JSON structure contains temperature and humidity fields
+//    weatherDataFirestore["temperature"] = firebase::firestore::FieldValue::Double(jsonData["temperature_2m"].asDouble());
+//    weatherDataFirestore["humidity"] = firebase::firestore::FieldValue::Double(jsonData["relative_humidity_2m"].asDouble());
 
-// Wait for the operation to complete
-while (!collection.is_valid()) {
-    // Handle other events while waiting
-}
+//    // Add the weather data to the Firestore collection
+//    firestore->Collection("weather_collection").Add(weatherDataFirestore).OnCompletion(
+//        [](const firebase::Future<firebase::firestore::DocumentReference>& future) {
+//            if (future.error() == firebase::firestore::kErrorNone) {
+//                std::cout << "Data added successfully" << std::endl;
+//            } else {
+//                std::cerr << "Error adding data to Firestore: " << future.error_message() << std::endl;
+//            }
+//        }
+//    );
 
-// Cleanup
-delete firestore;
-delete app;
+//    // Cleanup
+//    // No need to delete Firestore and App objects immediately. Let them live until the operation is complete.
+//    // delete firestore;
+//    // delete app;
+//}
 
-}
+

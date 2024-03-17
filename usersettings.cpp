@@ -23,6 +23,10 @@ void UserSettings::loadUserSettingsMenu()
             std::cout<<"choose day range: ";
             std::cin>>choice;
             dayRange = std::to_string(choice); //changes day range to what the user types in
+        default:
+            std::cout << "Invalid command. Please Try again \n" << std::endl;
+            loadUserSettingsMenu();
+            break;
 
 
     }
@@ -72,6 +76,10 @@ void UserSettings::changeDisplayUnits()
             break;
         case 3:
             changeUnitHelperFuction(percipitationUnits,currentPercipitationUnit);
+            break;
+        default:
+            std::cout << "Invalid command. Please Try again \n" << std::endl;
+            changeDisplayUnits();
             break;
 
     }
