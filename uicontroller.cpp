@@ -1,5 +1,4 @@
 #include "uicontroller.h"
-#include "debugaid.h"
 #include "weatherdatamanager.h"
 #include "locationmanager.h"
 #include "usersettings.h"

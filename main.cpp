@@ -3,12 +3,11 @@
 #include "uicontroller.h"
 
 
+UIcontroller ui;
 
 
 int main()
 {
-    UIcontroller ui;
     ui.loadMainMenu();
     return 0;
 }
-//add default program flow to all switch statements

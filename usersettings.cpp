@@ -10,6 +10,7 @@ void UserSettings::loadUserSettingsMenu()
     std::cout << "\n" << "<<<USER SETTINGS>>>" << std::endl;
     std::cout << "1 - CHANGE DISPLAY UNITS" << std::endl;
     std::cout << "2 - SET WEATHER FORECAST DISPLAY RANGE" << std::endl;
+    std::cout << "3 - EXIT" << std::endl;
 
     std::cout<<"choose: ";
     int choice;
@@ -23,6 +24,9 @@ void UserSettings::loadUserSettingsMenu()
             std::cout<<"choose day range: ";
             std::cin>>choice;
             dayRange = std::to_string(choice); //changes day range to what the user types in
+        case 3:
+            //Exit menu
+            break;
         default:
             std::cout << "Invalid command. Please Try again \n" << std::endl;
             loadUserSettingsMenu();
@@ -59,6 +63,8 @@ void UserSettings::changeDisplayUnits()
     std::cout<<"1 - Temperature Unit: "<<currentTemperatureUnit<<std::endl;
     std::cout<<"2 - Wind Speed Unit: "<<currentWindSpeedUnit<<std::endl;
     std::cout<<"3 - Percipitation Units: "<<currentPercipitationUnit<<std::endl;
+    std::cout<<"4 - NONE (exit menu)"<<std::endl;
+
 
 
     std::cout<<"What unit do you want to change: ";
@@ -70,12 +76,18 @@ void UserSettings::changeDisplayUnits()
     {
         case 1:
             changeUnitHelperFuction(temperatureUnits,currentTemperatureUnit);
+            changeDisplayUnits();
             break;
         case 2:
             changeUnitHelperFuction(windSpeedUnits,currentWindSpeedUnit);
+            changeDisplayUnits();
             break;
         case 3:
             changeUnitHelperFuction(percipitationUnits,currentPercipitationUnit);
+            changeDisplayUnits();
+            break;
+        case 4:
+            //Exit menu
             break;
         default:
             std::cout << "Invalid command. Please Try again \n" << std::endl;
