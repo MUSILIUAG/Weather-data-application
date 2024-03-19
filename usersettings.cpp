@@ -24,6 +24,8 @@ void UserSettings::loadUserSettingsMenu()
             std::cout<<"choose day range: ";
             std::cin>>choice;
             dayRange = std::to_string(choice); //changes day range to what the user types in
+            startDate="";
+            endDate="";
         case 3:
             //Exit menu
             break;
