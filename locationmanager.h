@@ -11,7 +11,7 @@ class LocationManager
 {
 public:
     std::unordered_map<std::string, std::vector<std::pair<double, double>>>Location{
-        {"Lagos",{{6.4541,3.3947}}}
+        {"lagos",{{6.4541,3.3947}}}
     }; // format name {latitude, longitude}
 
 

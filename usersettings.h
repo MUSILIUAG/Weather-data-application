@@ -17,6 +17,8 @@ public:
     std::string currentWindSpeedUnit = "kmh";
     std::string currentPercipitationUnit = "mm";
     std::string dayRange = "1";
+    std::string startDate = "2024-03-17";
+    std::string endDate = "2024-03-19";
 
 
 

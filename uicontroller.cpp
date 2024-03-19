@@ -15,7 +15,7 @@ void UIcontroller::loadMainMenu()
 {
     std::cout << "\n" << "<<<MAIN MENU>>>" << std::endl;
     std::cout << "1 - LOCATION QUERIES" << std::endl;
-    std::cout << "2 - DISPLAY HOURLY WEATHER FORECAST" << std::endl;
+    std::cout << "2 - DISPLAY WEATHER FORECAST" << std::endl;
     std::cout << "3 - USER SETTINGS" << std::endl;
     std::cout << "4 - EXIT" << std::endl;
 

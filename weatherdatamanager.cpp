@@ -1,14 +1,18 @@
 #include "weatherdatamanager.h"
 #include "apicontroller.h"
 #include "locationmanager.h"
+#include "usersettings.h"
 
 APIController api;
 extern LocationManager location;
+extern UserSettings userSettings;
 
 WeatherDataManager::WeatherDataManager(){}
 
 void WeatherDataManager::loadWeatherDataMenu()
 {
+    std::cout <<"\n"<<"NOTE: By default, the day display range is set to 1 day. You can modify this"
+               << "in the user settings or specify start and end dates for historical data."<<std::endl;
     std::cout <<"\n"<< "<<<DISPLAY WEATHER FORECAST>>>" << std::endl;
 
     if(location.Location.size() != 0) std::cout <<"\n"<< "SAVED LOCATIONS" << std::endl;
@@ -51,8 +55,10 @@ void WeatherDataManager::displayWeatherData()
             }
 
         const auto& hourlyKey = weatherDataJson["hourly"];
-        const auto& timeKeyValue = weatherDataJson["hourly"]["time"];
+        const auto& timeKeyValue = hourlyKey["time"];
+        const auto& dayKeyValue = hourlyKey["is_day"];
         int forecastDays = 1;
+        std::string dielCycle="";
         for(unsigned int i = 0; i < timeKeyValue.size(); i++)
         {
             if(i == 0 || i%24 == 0)
@@ -62,6 +68,12 @@ void WeatherDataManager::displayWeatherData()
             }
 
             std::cout<< "\n" << "Time: "<<timeKeyValue[i].asString()<<std::endl; // prints the time
+
+            if(userSettings.startDate != "")
+            {
+                 std::cout<<"Diel Cycle: "<<dayKeyValue[i].asString()<<std::endl;
+            }
+
             for (const auto& key : keyList)
             {
                 std::string keyToWeatherVariable = weatherVariables[std::stoi(key)-1]; //converts the keys to an index so access the indexed weather variable

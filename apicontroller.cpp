@@ -30,9 +30,19 @@ Json::Value APIController::fetchWeatherData(std::pair<double, double> credential
     std::string longitudeAsString = std::to_string(credentials.second);
     std::string url = "https://api.open-meteo.com/v1/forecast?latitude=" + latitudeAsString +
                       "&longitude=" + longitudeAsString +
-                      "&hourly=temperature_2m,relative_humidity_2m,precipitation_probability" +
+                      "&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,is_day" +
                       "&daily=&temperature_unit="+ userSettings.currentTemperatureUnit +"&wind_speed_unit="+ userSettings.currentWindSpeedUnit +
-                      "&precipitation_unit="+userSettings.currentPercipitationUnit+"&forecast_days="+userSettings.dayRange;
+                      "&precipitation_unit="+userSettings.currentPercipitationUnit;
+
+
+    // uses the users settings to make to specify if to use days to specify or if to use range for historical data
+    if(userSettings.startDate == "")//checks if the user has any saved range settings
+    {
+        url += "&forecast_days="+userSettings.dayRange;
+    }
+    else{
+        url += "&start_date="+userSettings.startDate+"&end_date="+userSettings.endDate;
+    }
 
 
     // Initialize cURL session
