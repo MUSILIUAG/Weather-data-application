@@ -9,6 +9,7 @@ class DataManager
 public:
     Json::Value DataJson;
     std::vector<std::string>weatherVariables{"temperature_2m","relative_humidity_2m","dew_point_2m"};
+    std::string url = "1";
 
 
 
@@ -16,7 +17,7 @@ public:
 
     void loadDataMenu();
     void displayData();
-    void setData(std::pair<double, double> geocoordinates);
+    void getData();
     void handleVariableSelections(std::vector<std::string>);
 };
 

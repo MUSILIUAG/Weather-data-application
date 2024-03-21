@@ -27,9 +27,13 @@ void DataManager::loadDataMenu()
     std::string locationName;
     std::cin >> locationName;
 
+    std::pair<double, double>geocoordinates = location.Location[locationName][0];
+    userSettings.latitudeAsString = std::to_string(geocoordinates.first);
+    userSettings.longitudeAsString = std::to_string(geocoordinates.second);
+
 
     handleVariableSelections(weatherVariables);
-    setData(location.Location[locationName][0]);
+    getData();
     displayData();
 
 }
@@ -74,9 +78,9 @@ void DataManager::handleVariableSelections(std::vector<std::string> allVariables
 
 
 
-void DataManager::setData(std::pair<double, double> geocoordinates)
+void DataManager::getData()
 {
-    DataJson = api.fetchWeatherData(geocoordinates);
+    DataJson = api.fetchWeatherData(url);
 }
 
 

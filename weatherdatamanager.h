@@ -6,6 +6,7 @@ class WeatherDataManager:public DataManager
 {
 public:
     WeatherDataManager();
-};
+    std::string url;
+
 
 #endif // WEATHERDATAMANAGER_H
