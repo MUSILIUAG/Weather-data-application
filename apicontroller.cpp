@@ -25,13 +25,25 @@ Json::Value APIController::fetchWeatherData(std::pair<double, double> geocoordin
     CURL *curl;
     CURLcode res;
     std::string apiResponse;
+<<<<<<< HEAD
     std::string latitudeAsString = std::to_string(geocoordinates.first);
     std::string longitudeAsString = std::to_string(geocoordinates.second);
     std::string url;
+=======
+    std::string latitudeAsString = std::to_string(credentials.first);
+    std::string longitudeAsString = std::to_string(credentials.second);
+    std::string url = "https://api.open-meteo.com/v1/forecast?latitude=" + latitudeAsString +
+                      "&longitude=" + longitudeAsString +
+                      "&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,is_day" +
+                      "&daily=&temperature_unit="+ userSettings.currentTemperatureUnit +"&wind_speed_unit="+ userSettings.currentWindSpeedUnit +
+                      "&precipitation_unit="+userSettings.currentPercipitationUnit;
+
+>>>>>>> b9ef956ed2f28bf2688b9187f845c0c48dc1ae7b
 
     // uses the users settings to make to specify if to use days to specify or if to use range for historical data
     if(userSettings.startDate == "")//checks if the user has any saved range settings
     {
+<<<<<<< HEAD
         url = "https://api.open-meteo.com/v1/forecast?latitude=" + latitudeAsString + "&longitude=" + longitudeAsString +
                 "&hourly="+userSettings.userSelections +
                 "&daily=&temperature_unit="+ userSettings.currentTemperatureUnit +"&wind_speed_unit="+ userSettings.currentWindSpeedUnit +
@@ -43,6 +55,12 @@ Json::Value APIController::fetchWeatherData(std::pair<double, double> geocoordin
                 "&hourly="+ userSettings.userSelections + ",is_day" +
                 "&temperature_unit="+ userSettings.currentTemperatureUnit +"&wind_speed_unit="+ userSettings.currentWindSpeedUnit +
                 "&precipitation_unit="+userSettings.currentPercipitationUnit;
+=======
+        url += "&forecast_days="+userSettings.dayRange;
+    }
+    else{
+        url += "&start_date="+userSettings.startDate+"&end_date="+userSettings.endDate;
+>>>>>>> b9ef956ed2f28bf2688b9187f845c0c48dc1ae7b
     }
 
 

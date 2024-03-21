@@ -22,8 +22,16 @@ void UserSettings::loadUserSettingsMenu()
             changeDisplayUnits();
             break;
         case 2:
+<<<<<<< HEAD
             setDayRange();
             break;
+=======
+            std::cout<<"choose day range: ";
+            std::cin>>choice;
+            dayRange = std::to_string(choice); //changes day range to what the user types in
+            startDate="";
+            endDate="";
+>>>>>>> b9ef956ed2f28bf2688b9187f845c0c48dc1ae7b
         case 3:
             setHistoricalDataRange();
             break;
