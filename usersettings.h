@@ -1,4 +1,4 @@
-#ifndef USERSETTINGS_H
+﻿#ifndef USERSETTINGS_H
 #define USERSETTINGS_H
 #include <string>
 #include <vector>
@@ -17,14 +17,20 @@ public:
     std::string currentWindSpeedUnit = "kmh";
     std::string currentPercipitationUnit = "mm";
     std::string dayRange = "1";
-    std::string startDate = "2024-03-17";
-    std::string endDate = "2024-03-19";
+    std::string startDate = "";
+    std::string endDate = "";
+
+
+    std::string userSelections;//comma separated list of weather variables
+    std::vector<std::string> userSelcetionVec; //vector list of weather variables
 
 
 
     UserSettings();
     void loadUserSettingsMenu();
     void changeDisplayUnits();
+    void setDayRange();
+    void setHistoricalDataRange();
 };
 
 #endif // USERSETTINGS_H

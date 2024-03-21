@@ -12,16 +12,11 @@ typedef void CURL;
 // Forward declaration for APIController class
 class APIController {
 public:
-    // Constructor
     APIController();
-
-    // Method to display weather data
     Json::Value fetchWeatherData(std::pair<double, double> credentials);
 
     // Public member function for writing data callback
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, std::string *buffer);
-
-    void test();
 
 private:
     // Private member variable for cURL handle

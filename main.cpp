@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
-#include "uicontroller.h"
+#include "mainmenu.h"
 
 
-UIcontroller ui;
+mainMenu ui;
 
 
 int main()
@@ -11,3 +11,4 @@ int main()
     ui.loadMainMenu();
     return 0;
 }
+// change the api for historical date
