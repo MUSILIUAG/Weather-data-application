@@ -18,8 +18,8 @@ public:
     std::string currentPercipitationUnit = "mm";
     std::string dayRange = "1";
 
-    std::string startDate = "";
-    std::string endDate = "";
+    std::string startDate = "2022-11-12";
+    std::string endDate = "2022-11-14";
 
 
     std::pair<double, double>geocoordinates;
@@ -33,9 +33,10 @@ public:
 
     UserSettings();
     void loadUserSettingsMenu();
-    void changeDisplayUnits();
+    void changedisplayUnit(std::vector<std::string>& units, std::string& unit);
     void setDayRange();
     void setHistoricalDataRange();
+    void changeCurrentSettings();
 };
 
 #endif // USERSETTINGS_H

@@ -3,30 +3,48 @@
 #include "locationmanager.h"
 #include "usersettings.h"
 #include "airqualitydatamanager.h"
+#include "datamanager.h"
+#include "historicalweatherdatamanager.h"
+#include "apicontroller.h"
 #include <iostream>
 
 LocationManager location;
 UserSettings userSettings;
-WeatherDataManager data;
+WeatherDataManager weatherdata;
 AirQualityDataManager airQualityData;
+HistoricalWeatherDataManager historicalWeatherData;
 
 
 
-mainMenu::mainMenu(){}
 
-void mainMenu::loadMainMenu()
+MainMenu::MainMenu(){}
+
+void MainMenu::loadMainMenu()
 {
     std::cout << "\n" << "<<<MAIN MENU>>>" << std::endl;
     std::cout << "1 - LOCATION QUERIES" << std::endl;
     std::cout << "2 - DISPLAY WEATHER FORECAST" << std::endl;
-    std::cout << "3 - DISPLAY AIR QUALITY DATA" << std::endl;
-    std::cout << "4 - USER SETTINGS" << std::endl;
-    std::cout << "5 - EXIT" << std::endl;
+    std::cout << "3 - DISPLAY HISTORICAL WEATHER FORECAST" << std::endl;
+    std::cout << "4 - DISPLAY AIR QUALITY DATA" << std::endl;
+    std::cout << "5 - USER SETTINGS" << std::endl;
+    std::cout << "6 - EXIT" << std::endl;
+    navToSelectedMenu();
+}
 
 
+void MainMenu::navToSelectedMenu()
+{
     int choice;
-    std::cout <<"\n"<< "choose between 1 and 5: ";
-    std::cin >> choice;
+    std::cout <<"\n"<< "choose between 1 and 6: ";
+
+    if (!(std::cin >> choice)) {
+            std::cin.clear(); // clear the failbit
+            std::cin.ignore(256, '\n'); // discard invalid input
+            std::cerr << "Invalid input. Please enter an integer." << std::endl;
+            loadMainMenu();
+            return;
+        }
+
 
     switch(choice)
     {
@@ -34,23 +52,25 @@ void mainMenu::loadMainMenu()
             location.loadLocationMenu();
             loadMainMenu();
             break;
-
         case 2:
-            data.loadDataMenu();
+            weatherdata.loadDataMenu();
             loadMainMenu();
             break;
         case 3:
-            airQualityData.loadDataMenu();
+            historicalWeatherData.loadDataMenu();
             loadMainMenu();
             break;
         case 4:
-            userSettings.loadUserSettingsMenu();
+            airQualityData.loadDataMenu();
             loadMainMenu();
             break;
         case 5:
-
-            break; //Exit the program
-
+            userSettings.loadUserSettingsMenu();
+            loadMainMenu();
+            break;
+        case 6:
+            //Exit the program
+            break;
         default:
             std::cout << "Invalid command. Please Try again \n" << std::endl;
             loadMainMenu();

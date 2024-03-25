@@ -10,6 +10,7 @@ SOURCES += \
     airqualitydatamanager.cpp \
     apicontroller.cpp \
     datamanager.cpp \
+    historicalweatherdatamanager.cpp \
     locationmanager.cpp \
     main.cpp \
     mainmenu.cpp \
@@ -20,6 +21,7 @@ HEADERS += \
     airqualitydatamanager.h \
     apicontroller.h \
     datamanager.h \
+    historicalweatherdatamanager.h \
     locationmanager.h \
     mainmenu.h \
     usersettings.h \

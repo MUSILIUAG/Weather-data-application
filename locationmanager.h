@@ -18,6 +18,7 @@ public:
     LocationManager();
     void loadLocationMenu();
     void addLocation();
+    void navToSelectedMenu();
     void removeLocation();
 };
 

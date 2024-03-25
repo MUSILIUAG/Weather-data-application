@@ -4,37 +4,67 @@
 
 UserSettings::UserSettings(){}
 
+
+
+
+
+
+
+
+
+
+
+
 void UserSettings::loadUserSettingsMenu()
 {
+    std::cout<<" <<CURRENT SETTINGS>>" <<std::endl;
+    std::cout<<"1 - Temperature Unit: "<<currentTemperatureUnit<<std::endl;
+    std::cout<<"2 - Wind Speed Unit: "<<currentWindSpeedUnit<<std::endl;
+    std::cout<<"3 - Percipitation Units: "<<currentPercipitationUnit<<std::endl;
+    std::cout<<"4 - Day Range: "<<dayRange<<std::endl;
+    std::cout<<"5 - Historical data:  Start Date: "<<startDate<<", End date: " <<endDate<<std::endl;
+    std::cout<<"6 - NONE (exit menu)"<<std::endl;
 
-    std::cout << "\n" << "<<<USER SETTINGS>>>" << std::endl;
-    std::cout << "1 - CHANGE DISPLAY UNITS" << std::endl;
-    std::cout << "2 - SET WEATHER FORECAST DISPLAY RANGE" << std::endl;
-    std::cout << "3 - SET HISTORICAL FORECAST DISPLAY RANGE" << std::endl;
-    std::cout << "4 - EXIT" << std::endl;
+    changeCurrentSettings();
+}
 
-    std::cout<<"choose: ";
+
+
+void UserSettings::changeCurrentSettings()
+{
+    std::cout<<"What unit do you want to change: ";
+
     int choice;
     std::cin>>choice;
+
     switch(choice)
     {
         case 1:
-            changeDisplayUnits();
+            changedisplayUnit(temperatureUnits,currentTemperatureUnit);
+            loadUserSettingsMenu();
             break;
         case 2:
-            setDayRange();
+            changedisplayUnit(windSpeedUnits,currentWindSpeedUnit);
+            loadUserSettingsMenu();
             break;
         case 3:
-            setHistoricalDataRange();
+            changedisplayUnit(percipitationUnits,currentPercipitationUnit);
+            loadUserSettingsMenu();
             break;
         case 4:
+            setDayRange();
+            loadUserSettingsMenu();
+            break;
+        case 5:
+            setHistoricalDataRange();
+            loadUserSettingsMenu();
+        case 6:
             //Exit menu
             break;
         default:
             std::cout << "Invalid command. Please Try again \n" << std::endl;
-            loadUserSettingsMenu();
+            changeCurrentSettings();
             break;
-
 
     }
 }
@@ -43,7 +73,7 @@ void UserSettings::loadUserSettingsMenu()
 
 
 
-void changeUnitHelperFuction(std::vector<std::string>& units, std::string& unit)
+void UserSettings::changedisplayUnit(std::vector<std::string>& units, std::string& unit)
 {
     std::cout<<" <<AVAILABLE UNIT>>" <<std::endl;
     for(unsigned int i = 1; i <= units.size(); i++)
@@ -60,46 +90,6 @@ void changeUnitHelperFuction(std::vector<std::string>& units, std::string& unit)
 }
 
 
-void UserSettings::changeDisplayUnits()
-{
-    std::cout<<" <<CURRENT SETTINGS>>" <<std::endl;
-    std::cout<<"1 - Temperature Unit: "<<currentTemperatureUnit<<std::endl;
-    std::cout<<"2 - Wind Speed Unit: "<<currentWindSpeedUnit<<std::endl;
-    std::cout<<"3 - Percipitation Units: "<<currentPercipitationUnit<<std::endl;
-    std::cout<<"4 - NONE (exit menu)"<<std::endl;
-
-
-
-    std::cout<<"What unit do you want to change: ";
-
-    int choice;
-    std::cin>>choice;
-
-    switch(choice)
-    {
-        case 1:
-            changeUnitHelperFuction(temperatureUnits,currentTemperatureUnit);
-            changeDisplayUnits();
-            break;
-        case 2:
-            changeUnitHelperFuction(windSpeedUnits,currentWindSpeedUnit);
-            changeDisplayUnits();
-            break;
-        case 3:
-            changeUnitHelperFuction(percipitationUnits,currentPercipitationUnit);
-            changeDisplayUnits();
-            break;
-        case 4:
-            //Exit menu
-            break;
-        default:
-            std::cout << "Invalid command. Please Try again \n" << std::endl;
-            changeDisplayUnits();
-            break;
-
-    }
-}
-
 void UserSettings::setDayRange()
 {
     std::cout<<"choose day range: ";
@@ -107,9 +97,6 @@ void UserSettings::setDayRange()
     std::cin>>userDayRangeInput;
 
     dayRange = userDayRangeInput; //changes day range to what the user types in
-
-    startDate=""; // reset the start and end dates to the default to make sure only one weather period setting can be set
-    endDate="";
 }
 
 void UserSettings::setHistoricalDataRange()
@@ -127,8 +114,5 @@ void UserSettings::setHistoricalDataRange()
 
     startDate = userStartDateInput;
     endDate= userEndDateInput;
-    dayRange = "1"; //reset the day range back to the default
-
-
 }
 

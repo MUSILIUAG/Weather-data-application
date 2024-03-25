@@ -9,15 +9,16 @@
 
 extern LocationManager location;
 extern UserSettings userSettings;
-extern WeatherDataManager data;
+extern WeatherDataManager weatherdata;
 extern AirQualityDataManager airQualityData;
 
-class mainMenu
+class MainMenu
 {
 public:
 
-    mainMenu();
+    MainMenu();
     void loadMainMenu();
+    void navToSelectedMenu();
     void displayWeatherData();
 };
 

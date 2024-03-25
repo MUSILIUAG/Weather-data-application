@@ -3,12 +3,12 @@
 #include "mainmenu.h"
 
 
-mainMenu ui;
+MainMenu mainMenu;
 
 
 int main()
 {
-    ui.loadMainMenu();
+    mainMenu.loadMainMenu();
     return 0;
 }
-// change the api for historical date
+// to do: rename funcs idk and idkk to someting reasonable

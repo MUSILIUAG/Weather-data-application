@@ -2,27 +2,32 @@
 #include "apicontroller.h"
 #include "locationmanager.h"
 #include "usersettings.h"
+#include <algorithm>
 
 APIController api;
 extern LocationManager location;
 extern UserSettings userSettings;
+
 
 DataManager::DataManager(){}
 
 void DataManager::loadDataMenu()
 {
 
-    std::cout <<"\n"<< "<<<DISPLAY WEATHER FORECAST>>>" << std::endl;
+    std::cout <<"\n"<< "<<<DISPLAY FORECAST>>>" << std::endl;
 
-    std::cout <<"\n"<<"NOTE: By default, the day display range is set to 1 day. You can modify this"
-               << "in the user settings or specify start and end dates for historical data."<<std::endl;
+    std::cout <<"\n"<<"DISCLAIMER:  All day ranges and start to end dates for historical data are Default values go to settings to change them"<<std::endl;
 
-    if(location.Location.size() != 0) std::cout <<"\n"<< "SAVED LOCATIONS" << std::endl;
+    if(!location.Location.empty()) std::cout <<"\n"<< "SAVED LOCATIONS" << std::endl;
     for (const auto& loc : location.Location) // prints out all saved locations
     {
         std::cout << "Locaton name: "<<loc.first << std::endl;
     }
+    idkk();
+}
 
+void DataManager::idkk()
+{
     std::cout << "Type location name: ";
     std::string locationName;
     std::cin >> locationName;
@@ -31,8 +36,16 @@ void DataManager::loadDataMenu()
     userSettings.latitudeAsString = std::to_string(geocoordinates.first);
     userSettings.longitudeAsString = std::to_string(geocoordinates.second);
 
+    idk();
+}
 
-    handleVariableSelections(weatherVariables);
+
+void DataManager::idk()
+{
+
+    std::vector<std::string> Variables = getVariables();
+    handleVariableSelections(Variables);
+
     getData();
     displayData();
 
@@ -62,6 +75,8 @@ void DataManager::handleVariableSelections(std::vector<std::string> allVariables
         while (std::getline(iss, key, ',')) {
             keyToWeatherVar.push_back(allVariables[std::stoi(key)-1]);
         }
+
+        std::sort(keyToWeatherVar.begin(), keyToWeatherVar.end());
         userSettings.userSelcetionVec = keyToWeatherVar;
 
 
@@ -80,7 +95,8 @@ void DataManager::handleVariableSelections(std::vector<std::string> allVariables
 
 void DataManager::getData()
 {
-    DataJson = api.fetchWeatherData(url);
+    std::string url = getUrl();
+    DataJson = api.fetchJsonData(url);
 }
 
 
@@ -103,7 +119,7 @@ void DataManager::displayData()
 
             std::cout<< "\n" << "Time: "<<timeKeyValue[i].asString()<<std::endl; // prints the time
 
-            if(userSettings.startDate != "") //displays the diel cycle only if a user but in a date for historical data
+            if(hourlyKey.isMember("is_day")) //displays the diel cycle only if a user but in a date for historical data
             {
                 if (dayKeyValue[i].asString() == "1") dielCycle = "Day";
                 else dielCycle = "Night";
@@ -125,6 +141,22 @@ void DataManager::displayData()
                     }
 
             } 
+
+        }
+        std::cout<<"Do you want to export y/n: "<<std::endl;
+        char thing;
+        std::cin>>thing;
+
+
+        if (thing =='y')
+        {
+           std::cout<<"Formats csv, xlsx "<<std::endl;
+           std::string thinge;
+           std::cin>>thinge;
+
+           std::string url = getUrl();
+
+           api.test(url + "&format=" + thinge);
         }
 }
 

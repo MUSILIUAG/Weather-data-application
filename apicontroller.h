@@ -13,7 +13,8 @@ typedef void CURL;
 class APIController {
 public:
     APIController();
-    Json::Value fetchWeatherData(std::string url);
+    Json::Value fetchJsonData(std::string url);
+    void test(std::string url);
 
     // Public member function for writing data callback
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, std::string *buffer);

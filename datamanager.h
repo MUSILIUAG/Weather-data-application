@@ -8,17 +8,19 @@ class DataManager
 {  
 public:
     Json::Value DataJson;
-    std::vector<std::string>weatherVariables{"temperature_2m","relative_humidity_2m","dew_point_2m"};
-    std::string url = "1";
-
-
 
     DataManager();
 
+    virtual std::string getUrl() const = 0;
+    virtual std::vector<std::string> getVariables() const = 0;
+
     void loadDataMenu();
-    void displayData();
-    void getData();
     void handleVariableSelections(std::vector<std::string>);
+    void getData();
+    void idk();
+    void idkk();
+    void displayData();
+
 };
 
 #endif // DATAMANAGER_H
