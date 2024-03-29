@@ -26,7 +26,7 @@ public:
     std::string latitudeAsString;
     std::string longitudeAsString;
     std::string userSelections;//comma separated list of weather variables
-    std::vector<std::string> userSelcetionVec; //vector list of weather variables
+    std::vector<std::pair<std::string, std::string>> userSelcetionVec; //vector list of weather variables
 
 
 

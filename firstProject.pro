@@ -9,6 +9,7 @@ LIBS += -ljsoncpp -lcurl
 SOURCES += \
     airqualitydatamanager.cpp \
     apicontroller.cpp \
+    dataexporter.cpp \
     datamanager.cpp \
     historicalweatherdatamanager.cpp \
     locationmanager.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 HEADERS += \
     airqualitydatamanager.h \
     apicontroller.h \
+    dataexporter.h \
     datamanager.h \
     historicalweatherdatamanager.h \
     locationmanager.h \

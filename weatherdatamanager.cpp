@@ -11,8 +11,8 @@ std::string WeatherDataManager::getUrl() const {
                 "&precipitation_unit="+userSettings.currentPercipitationUnit+"&forecast_days="+userSettings.dayRange;
 }
 
-std::vector<std::string> WeatherDataManager::getVariables() const{
-Variables weatherVaribles;
-return weatherVaribles.varibles;
+std::vector<std::pair<std::string, std::string>> WeatherDataManager::getVariables() const{
+hourlyVariables weatherVaribles;
+return weatherVaribles.variables;
 }
 

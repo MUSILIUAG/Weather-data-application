@@ -4,10 +4,7 @@
 
 WeatherDataManager weatherData;
 
-HistoricalWeatherDataManager::HistoricalWeatherDataManager()
-{
-    setVariables();
-}
+HistoricalWeatherDataManager::HistoricalWeatherDataManager(){}
 
 std::string HistoricalWeatherDataManager::getUrl() const {
     return  "https://archive-api.open-meteo.com/v1/archive?latitude=" + userSettings.latitudeAsString + "&longitude=" + userSettings.longitudeAsString +
@@ -17,12 +14,9 @@ std::string HistoricalWeatherDataManager::getUrl() const {
             "&precipitation_unit="+userSettings.currentPercipitationUnit;
 }
 
-void HistoricalWeatherDataManager::setVariables(){
-    historicalWeather.variables = weatherData.getVariables();
-    historicalWeather.variables.push_back("test");
-}
 
 
-std::vector<std::string> HistoricalWeatherDataManager::getVariables() const{
+std::vector<std::pair<std::string, std::string>> HistoricalWeatherDataManager::getVariables() const{
+    hourlyVariables historicalWeather;
     return historicalWeather.variables;
 }

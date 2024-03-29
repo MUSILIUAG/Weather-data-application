@@ -9,18 +9,34 @@ class AirQualityDataManager:public DataManager
 {
 public:
     std::string getUrl() const override;
-    std::vector<std::string> getVariables() const override;
+    std::vector<std::pair<std::string, std::string>> getVariables() const override;
 
 
     AirQualityDataManager();
 
 
 private:
-    struct Variables
-    {
-      std::vector<std::string> variables {"pm10", "pm2_5", "carbon_monoxide", "nitrogen_dioxide", "european_aqi"
-                                             , "european_aqi_pm2_5", "european_aqi_pm10", "european_aqi_nitrogen_dioxide",
-                                             "european_aqi_ozone", "european_aqi_sulphur_dioxide"};
+    struct hourlyVariables {
+        std::vector<std::pair<std::string, std::string>> variables {
+            {"Particulate Matter PM10", "pm10"},
+            {"Particulate Matter PM2.5", "pm2_5"},
+            {"Carbon Monoxide CO", "carbon_monoxide"},
+            {"Nitrogen Dioxide NO2", "nitrogen_dioxide"},
+            {"Sulphur Dioxide SO2", "sulphur_dioxide"},
+            {"Ozone O3", "ozone"},
+            {"Aerosol Optical Depth", "aerosol_optical_depth"},
+            {"Dust", "dust"},
+            {"UV Index", "uv_index"},
+            {"UV Index Clear Sky", "uv_index_clear_sky"},
+            {"Ammonia NH3 (*)", "ammonia"},
+            {"Alder Pollen (*)", "alder_pollen"},
+            {"Birch Pollen (*)", "birch_pollen"},
+            {"Grass Pollen (*)", "grass_pollen"},
+            {"Mugwort Pollen (*)", "mugwort_pollen"},
+            {"Olive Pollen (*)", "olive_pollen"},
+            {"Ragweed Pollen (*)", "ragweed_pollen"}
+        };
+
     };
 
 

@@ -43,7 +43,7 @@ void DataManager::idkk()
 void DataManager::idk()
 {
 
-    std::vector<std::string> Variables = getVariables();
+    std::vector<std::pair<std::string, std::string>> Variables = getVariables();
     handleVariableSelections(Variables);
 
     getData();
@@ -55,11 +55,11 @@ void DataManager::idk()
 
 
 
-void DataManager::handleVariableSelections(std::vector<std::string> allVariables)
+void DataManager::handleVariableSelections(std::vector<std::pair<std::string, std::string>> allVariables)
 {
     for (unsigned long i=1; i <= allVariables.size(); i++)
     {
-        std::cout<<i<<" - "<<allVariables[i-1]<<std::endl;
+        std::cout<<i<<" - "<<allVariables[i-1].first<<std::endl;
     }
         std::cout<< "choose weather variables you want displayed: ";
         std::string choice;
@@ -70,7 +70,7 @@ void DataManager::handleVariableSelections(std::vector<std::string> allVariables
         std::istringstream iss(choice); //Gets the string array from the user
 
         std::string key;
-        std::vector<std::string> keyToWeatherVar;
+        std::vector<std::pair<std::string, std::string>> keyToWeatherVar;
         // adds the values to a vector
         while (std::getline(iss, key, ',')) {
             keyToWeatherVar.push_back(allVariables[std::stoi(key)-1]);
@@ -85,7 +85,7 @@ void DataManager::handleVariableSelections(std::vector<std::string> allVariables
                 if (i > 0) {
                     oss << ",";
                 }
-                oss << userSettings.userSelcetionVec[i];
+                oss << userSettings.userSelcetionVec[i].second; //Adds only the api code
             }
             userSettings.userSelections = oss.str(); //saves user preferences as comma seprated list
 }
@@ -129,15 +129,15 @@ void DataManager::displayData()
 
             for (auto& selection : userSettings.userSelcetionVec)
             {
-                const auto& hourlyData = hourlyKey[selection];
-                const auto& hourlDataUnits = DataJson["hourly_units"][selection];
-                    if (hourlyKey.isMember(selection))
+                const auto& hourlyData = hourlyKey[selection.second];
+                const auto& hourlDataUnits = DataJson["hourly_units"][selection.second];
+                    if (hourlyKey.isMember(selection.second))
                     {
-                        std::cout << selection << ": " << std::to_string(hourlyData[i].asInt()) + hourlDataUnits.asString() << std::endl;
+                        std::cout << selection.first << ": " << std::to_string(hourlyData[i].asInt()) + hourlDataUnits.asString() << std::endl;
                     }
                     else
                     {
-                        std::cerr << "Key not found: " << selection << std::endl;
+                        std::cerr << "Key not found: " << selection.first << std::endl;
                     }
 
             } 

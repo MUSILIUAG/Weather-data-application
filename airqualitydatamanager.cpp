@@ -11,8 +11,8 @@ std::string AirQualityDataManager::getUrl() const {
                 "&hourly="+userSettings.userSelections + "&forecast_days="+userSettings.dayRange;
 }
 
-std::vector<std::string> AirQualityDataManager::getVariables() const{
- Variables airQualityVariables;
+std::vector<std::pair<std::string, std::string>> AirQualityDataManager::getVariables() const{
+ hourlyVariables airQualityVariables;
  return airQualityVariables.variables;
 }
 

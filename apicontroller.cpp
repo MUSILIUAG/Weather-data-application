@@ -67,8 +67,7 @@ Json::Value APIController::fetchJsonData(std::string url) {
 
 // Callback function to write data to a file
 size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
-    size_t written = fwrite(ptr, size, nmemb, stream);
-    return written;
+    return fwrite(ptr, size, nmemb, stream);
 }
 
 // Convert string to lowercase
@@ -84,15 +83,6 @@ std::string get_extension_from_url(const std::string &url) {
         to_lower(ext);
         return ext;
     }
-    return "";
-}
-
-// Get content type from HTTP response headers
-std::string get_content_type(CURL *curl) {
-    char *ct;
-    curl_easy_getinfo(curl, CURLINFO_CONTENT_TYPE, &ct);
-    if (ct)
-        return ct;
     return "";
 }
 
@@ -126,18 +116,25 @@ void testing(std::string url) {
             std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
         } else {
             // Check the content type to determine the file extension
-            std::string content_type = get_content_type(curl);
+            std::string content_type = get_extension_from_url(url);
             to_lower(content_type);
-            if (content_type.find("csv") != std::string::npos) {
+            if (file_ext == "csv")
+            {
                 // File is CSV
                 std::cout << "File downloaded successfully as CSV!" << std::endl;
-            } else if (content_type.find("json") != std::string::npos) {
+            }
+            else if (content_type.find("json") != std::string::npos)
+            {
                 // File is JSON
                 std::cout << "File downloaded successfully as JSON!" << std::endl;
-            } else if (content_type.find("xlsx") != std::string::npos) {
+            }
+            else if (file_ext == "xlsx")
+            {
                 // File is XLSX
                 std::cout << "File downloaded successfully as XLSX!" << std::endl;
-            } else {
+            }
+            else {
+
                 std::cerr << "Unknown file format" << std::endl;
             }
         }

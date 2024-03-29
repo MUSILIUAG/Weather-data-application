@@ -12,10 +12,10 @@ public:
     DataManager();
 
     virtual std::string getUrl() const = 0;
-    virtual std::vector<std::string> getVariables() const = 0;
+    virtual std::vector<std::pair<std::string, std::string>> getVariables() const = 0;
 
     void loadDataMenu();
-    void handleVariableSelections(std::vector<std::string>);
+    void handleVariableSelections(std::vector<std::pair<std::string, std::string>>);
     void getData();
     void idk();
     void idkk();
