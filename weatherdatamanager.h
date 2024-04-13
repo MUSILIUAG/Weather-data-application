@@ -15,8 +15,8 @@ public:
 
 
 private:
-    struct hourlyVariables{
-        std::vector<std::pair<std::string, std::string>> variables {
+    struct Variables{
+        std::vector<std::pair<std::string, std::string>> hourlyVariables {
             {"Temperature","temperature_2m"},
             {"Relative Humidity","relative_humidity_2m"},
             {"Dew Point","dew_point_2m"},
@@ -58,7 +58,37 @@ private:
             {"Soil Moisture (1-3 cm)","soil_moisture_1_to_3cm"},
             {"Soil Moisture (3-9 cm)","soil_moisture_3_to_9cm"},
             {"Soil Moisture (9-27 cm)","soil_moisture_9_to_27cm"},
-            {"Soil Moisture (27-81 cm)","soil_moisture_27_to_81cm"}
+            {"Soil Moisture (27-81 cm)","soil_moisture_27_to_81cm"},
+
+            ///special Variables with extra selections
+            {"Solar Radiaton Variables","Special Variable with Extra selection"},
+            {"Pressure Variables","Special Variable with Extra selection"},
+            {"Weather Models","Special Variable with Extra selection"}
+        };
+
+        std::vector<std::pair<std::string, std::string>> dailyVariables {
+            {"Weather Code", "weather_code"},
+            {"Temperature 2m Max", "temperature_2m_max"},
+            {"Temperature 2m Min", "temperature_2m_min"},
+            {"Apparent Temperature Max", "apparent_temperature_max"},
+            {"Apparent Temperature Min", "apparent_temperature_min"},
+            {"Sunrise", "sunrise"},
+            {"Sunset", "sunset"},
+            {"Daylight Duration", "daylight_duration"},
+            {"Sunshine Duration", "sunshine_duration"},
+            {"UV Index Max", "uv_index_max"},
+            {"UV Index Clear Sky Max", "uv_index_clear_sky_max"},
+            {"Precipitation Sum", "precipitation_sum"},
+            {"Rain Sum", "rain_sum"},
+            {"Showers Sum", "showers_sum"},
+            {"Snowfall Sum", "snowfall_sum"},
+            {"Precipitation Hours", "precipitation_hours"},
+            {"Precipitation Probability Max", "precipitation_probability_max"},
+            {"Wind Speed 10m Max", "wind_speed_10m_max"},
+            {"Wind Gusts 10m Max", "wind_gusts_10m_max"},
+            {"Wind Direction 10m Dominant", "wind_direction_10m_dominant"},
+            {"Shortwave Radiation Sum", "shortwave_radiation_sum"},
+            {"ET0 FAO Evapotranspiration", "et0_fao_evapotranspiration"}
         };
     };
 

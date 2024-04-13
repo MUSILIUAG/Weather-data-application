@@ -14,6 +14,7 @@ void LocationManager::loadLocationMenu()
     std::cout<<"1 - ADD LOCATION"<<std::endl;
     std::cout<<"2 - MODIFY LOCATION"<<std::endl;
     std::cout<<"3 - REMOVE LOCATION \n"<<std::endl;
+    navToSelectedMenu();
 
 }
 

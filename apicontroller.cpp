@@ -2,7 +2,7 @@
 #include <iostream>
 #include <curl/curl.h>
 #include <jsoncpp/json/json.h>
-#include "usersettings.h"
+#include "userpreferences.h"
 #include <fstream>
 #include <algorithm>
 #include <sstream>

@@ -15,7 +15,7 @@ SOURCES += \
     locationmanager.cpp \
     main.cpp \
     mainmenu.cpp \
-    usersettings.cpp \
+    userpreferences.cpp \
     weatherdatamanager.cpp
 
 HEADERS += \
@@ -26,5 +26,5 @@ HEADERS += \
     historicalweatherdatamanager.h \
     locationmanager.h \
     mainmenu.h \
-    usersettings.h \
+    userpreferences.h \
     weatherdatamanager.h

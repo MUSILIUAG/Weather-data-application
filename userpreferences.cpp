@@ -1,8 +1,8 @@
-#include "usersettings.h"
+#include "userpreferences.h"
 #include <iostream>
 #include <vector>
 
-UserSettings::UserSettings(){}
+UserPreferences::UserPreferences(){}
 
 
 
@@ -15,7 +15,7 @@ UserSettings::UserSettings(){}
 
 
 
-void UserSettings::loadUserSettingsMenu()
+void UserPreferences::loadUserSettingsMenu()
 {
     std::cout<<" <<CURRENT SETTINGS>>" <<std::endl;
     std::cout<<"1 - Temperature Unit: "<<currentTemperatureUnit<<std::endl;
@@ -30,7 +30,7 @@ void UserSettings::loadUserSettingsMenu()
 
 
 
-void UserSettings::changeCurrentSettings()
+void UserPreferences::changeCurrentSettings()
 {
     std::cout<<"What unit do you want to change: ";
 
@@ -73,7 +73,7 @@ void UserSettings::changeCurrentSettings()
 
 
 
-void UserSettings::changedisplayUnit(std::vector<std::string>& units, std::string& unit)
+void UserPreferences::changedisplayUnit(std::vector<std::string>& units, std::string& unit)
 {
     std::cout<<" <<AVAILABLE UNIT>>" <<std::endl;
     for(unsigned int i = 1; i <= units.size(); i++)
@@ -90,7 +90,7 @@ void UserSettings::changedisplayUnit(std::vector<std::string>& units, std::strin
 }
 
 
-void UserSettings::setDayRange()
+void UserPreferences::setDayRange()
 {
     std::cout<<"choose day range: ";
     std::string userDayRangeInput;
@@ -99,7 +99,7 @@ void UserSettings::setDayRange()
     dayRange = userDayRangeInput; //changes day range to what the user types in
 }
 
-void UserSettings::setHistoricalDataRange()
+void UserPreferences::setHistoricalDataRange()
 {
 
 

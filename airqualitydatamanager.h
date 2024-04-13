@@ -1,9 +1,9 @@
 #ifndef AIRQUALITYDATAMANAGER_H
 #define AIRQUALITYDATAMANAGER_H
 #include "datamanager.h"
-#include "usersettings.h"
+#include "userpreferences.h"
 
-extern UserSettings userSettings;
+extern UserPreferences userSettings;
 
 class AirQualityDataManager:public DataManager
 {

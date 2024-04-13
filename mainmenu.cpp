@@ -1,7 +1,7 @@
 #include "mainmenu.h"
 #include "weatherdatamanager.h"
 #include "locationmanager.h"
-#include "usersettings.h"
+#include "userpreferences.h"
 #include "airqualitydatamanager.h"
 #include "datamanager.h"
 #include "historicalweatherdatamanager.h"
@@ -9,7 +9,7 @@
 #include <iostream>
 
 LocationManager location;
-UserSettings userSettings;
+UserPreferences userSettings;
 WeatherDataManager weatherdata;
 AirQualityDataManager airQualityData;
 HistoricalWeatherDataManager historicalWeatherData;
@@ -45,7 +45,7 @@ void MainMenu::navToSelectedMenu()
             return;
         }
 
-
+    userSettings.option = choice;
     switch(choice)
     {
         case 1:

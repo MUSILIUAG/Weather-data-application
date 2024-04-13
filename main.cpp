@@ -12,3 +12,4 @@ int main()
     return 0;
 }
 // to do: rename funcs idk and idkk to someting reasonable
+// rename all the hourly variables to accomodate daily

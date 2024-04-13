@@ -1,9 +1,9 @@
 #ifndef HISTORICALWEATHERDATAMANAGER_H
 #define HISTORICALWEATHERDATAMANAGER_H
 #include "datamanager.h"
-#include "usersettings.h"
+#include "userpreferences.h"
 
-extern UserSettings userSettings;
+extern UserPreferences userSettings;
 
 class HistoricalWeatherDataManager:public DataManager
 {
@@ -13,18 +13,17 @@ public:
     std::string getUrl() const override;
     std::vector<std::pair<std::string, std::string>> getVariables() const override;
 
-    void setVariables();
-
 
 
     HistoricalWeatherDataManager();
 
 private:
-    struct hourlyVariables
+    struct Variables
     {
-        std::vector<std::pair<std::string, std::string>> variables {
+        std::vector<std::pair<std::string, std::string>> hourlyVariables {
             {"Temperature","temperature_2m"},
             {"Relative Humidity","relative_humidity_2m"},
+            {"Is Day","is_day"},
             {"Dew Point","dew_point_2m"},
             {"Apparent Temperature","apparent_temperature"},
             {"Precipitation","precipitation"},
@@ -52,7 +51,36 @@ private:
             {"Soil Moisture (0-7 cm)","soil_moisture_0_to_7cm"},
             {"Soil Moisture (7-28 cm)","soil_moisture_7_to_28cm"},
             {"Soil Moisture (28-100 cm)","soil_moisture_28_to_100cm"},
-            {"Soil Moisture (100-255 cm)","soil_moisture_100_to_255cm"}
+            {"Soil Moisture (100-255 cm)","soil_moisture_100_to_255cm"},
+
+
+            ///special Varibles with extra selections
+            {"Solar Radiaton Variables","Special Variable with Extra selection"},
+            {"Pressure Variables","Special Variable with Extra selection"},
+            {"Reanalysis Models","Special Variable with Extra selection"}
+        };
+
+        std::vector<std::pair<std::string, std::string>> dailyVariables {
+            {"Weather Code", "weather_code"},
+            {"Temperature 2m Max", "temperature_2m_max"},
+            {"Temperature 2m Min", "temperature_2m_min"},
+            {"Temperature 2m Mean", "temperature_2m_mean"},
+            {"Apparent Temperature Max", "apparent_temperature_max"},
+            {"Apparent Temperature Min", "apparent_temperature_min"},
+            {"Apparent Temperature Mean", "apparent_temperature_mean"},
+            {"Sunrise", "sunrise"},
+            {"Sunset", "sunset"},
+            {"Daylight Duration", "daylight_duration"},
+            {"Sunshine Duration", "sunshine_duration"},
+            {"Precipitation Sum", "precipitation_sum"},
+            {"Rain Sum", "rain_sum"},
+            {"Snowfall Sum", "snowfall_sum"},
+            {"Precipitation Hours", "precipitation_hours"},
+            {"Wind Speed 10m Max", "wind_speed_10m_max"},
+            {"Wind Gusts 10m Max", "wind_gusts_10m_max"},
+            {"Wind Direction 10m Dominant", "wind_direction_10m_dominant"},
+            {"Shortwave Radiation Sum", "shortwave_radiation_sum"},
+            {"ET0 FAO Evapotranspiration", "et0_fao_evapotranspiration"}
         };
     };
 };

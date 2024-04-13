@@ -1,10 +1,10 @@
-﻿#ifndef USERSETTINGS_H
-#define USERSETTINGS_H
+#ifndef USERPREFERENCES_H
+#define USERPREFERENCES_H
 #include <string>
 #include <vector>
 
 
-class UserSettings
+class UserPreferences
 {
 public:
     std::vector<std::string> temperatureUnits {"celsius","fahrenheit"};
@@ -22,16 +22,26 @@ public:
     std::string endDate = "2022-11-14";
 
 
+
+
     std::pair<double, double>geocoordinates;
     std::string latitudeAsString;
     std::string longitudeAsString;
-    std::string userSelections;//comma separated list of weather variables
-    std::vector<std::pair<std::string, std::string>> userSelcetionVec; //vector list of weather variables
+
+    std::string userVariablesStr;//comma separated list of weather variables
+    std::vector<std::string> userVariablesVec; //vector list of weather variables
+
+    std::string hourlyOrDaily = "";
+    std::string solarTiltAndAzimuth = "";
+
+    std::vector<std::string> modelVec;
+    std::string modelStr;
+    int option;
 
 
 
 
-    UserSettings();
+    UserPreferences();
     void loadUserSettingsMenu();
     void changedisplayUnit(std::vector<std::string>& units, std::string& unit);
     void setDayRange();
@@ -39,4 +49,4 @@ public:
     void changeCurrentSettings();
 };
 
-#endif // USERSETTINGS_H
+#endif // USERPREFERENCES_H
