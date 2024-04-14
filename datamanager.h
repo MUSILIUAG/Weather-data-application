@@ -13,14 +13,15 @@ public:
 
     virtual std::string getUrl() const = 0;
     virtual std::vector<std::pair<std::string, std::string>> getVariables() const = 0;
+    virtual void loadDataMenu();
 
-    void loadDataMenu();
     void handleVariableSelections(std::vector<std::pair<std::string, std::string>>);
     void handleModelSelections(std::vector<std::pair<std::string, std::string>>);
 
+    void selectDerivedClassAddress();
     void getData();
-    void printSavedLocation();
-    void idkk();
+    void locationSelectionHandler();
+    void getWeatherVariables();
     void displayData(std::string hourlyOrDaily);
     void setHourlyOrDaily();
 

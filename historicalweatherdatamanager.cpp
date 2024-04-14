@@ -2,7 +2,6 @@
 #include "weatherdatamanager.h"
 #include <iostream>
 
-WeatherDataManager weatherData;
 
 HistoricalWeatherDataManager::HistoricalWeatherDataManager(){}
 

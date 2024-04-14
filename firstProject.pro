@@ -6,6 +6,7 @@ CONFIG -= qt
 
 LIBS += -ljsoncpp -lcurl
 
+
 SOURCES += \
     airqualitydatamanager.cpp \
     apicontroller.cpp \
@@ -16,6 +17,7 @@ SOURCES += \
     main.cpp \
     mainmenu.cpp \
     userpreferences.cpp \
+    utility.cpp \
     weatherdatamanager.cpp
 
 HEADERS += \
@@ -27,4 +29,5 @@ HEADERS += \
     locationmanager.h \
     mainmenu.h \
     userpreferences.h \
+    utility.h \
     weatherdatamanager.h

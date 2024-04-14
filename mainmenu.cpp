@@ -34,9 +34,8 @@ void MainMenu::loadMainMenu()
 
 void MainMenu::navToSelectedMenu()
 {
-    int choice;
     std::cout <<"\n"<< "choose between 1 and 6: ";
-
+    int choice;
     if (!(std::cin >> choice)) {
             std::cin.clear(); // clear the failbit
             std::cin.ignore(256, '\n'); // discard invalid input
@@ -44,6 +43,14 @@ void MainMenu::navToSelectedMenu()
             loadMainMenu();
             return;
         }
+
+    if (location.Location.empty() && (choice > 1 && choice < 4))
+    {
+        std::cout <<"\n"<<" << You have Saved locations (Click 1 for Location Queries) >>";
+        loadMainMenu();
+        return;
+
+    }
 
     userSettings.option = choice;
     switch(choice)

@@ -10,6 +10,7 @@ class AirQualityDataManager:public DataManager
 public:
     std::string getUrl() const override;
     std::vector<std::pair<std::string, std::string>> getVariables() const override;
+    void loadDataMenu() override;
 
 
     AirQualityDataManager();

@@ -86,7 +86,7 @@ std::string get_extension_from_url(const std::string &url) {
     return "";
 }
 
-void testing(std::string url) {
+void APIController::fetchDataToDownload(std::string url) {
     CURL *curl;
     CURLcode res;
     FILE *file;
@@ -147,11 +147,6 @@ void testing(std::string url) {
     } else {
         std::cerr << "Error initializing curl" << std::endl;
     }
-}
-
-void APIController::test(std::string url)
-{
-    testing(url);
 }
 
 

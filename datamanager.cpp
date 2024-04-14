@@ -5,13 +5,14 @@
 #include "airqualitydatamanager.h"
 #include "weatherdatamanager.h"
 #include "historicalweatherdatamanager.h"
+#include "dataexporter.h"
 #include <set>
 #include <algorithm>
 
 APIController api;
+
 extern LocationManager location;
 extern UserPreferences userSettings;
-
 
 extern WeatherDataManager weatherdata;
 extern AirQualityDataManager airQualityData;
@@ -31,13 +32,33 @@ void DataManager::loadDataMenu()
 
     std::cout <<"\n"<<"DISCLAIMER:  All day ranges and start to end dates for historical data are Default values go to settings to change them"<<std::endl;
 
-    std::cout<<"1 - HOURLY WEATHER VARIBLES"<<std::endl;
-    std::cout<<"2 - DAILY WEATHER VARIABLES"<<std::endl;
-
+    selectDerivedClassAddress();
+    locationSelectionHandler();
     setHourlyOrDaily();
+
 }
 
+void DataManager::selectDerivedClassAddress()
+{
+    switch(userSettings.option)
+    {
+        case 2:
+        ptr = &weatherdata;
+        break;
+        case 3:
+        ptr = &historicalWeatherData;
+        break;
+        case 4:
+        ptr = &airQualityData;
+        break;
+    }
+}
+
+
 void DataManager::setHourlyOrDaily(){
+    std::cout<<"\n"<<"1 - HOURLY WEATHER VARIBLES"<<std::endl;
+    std::cout<<"2 - DAILY WEATHER VARIABLES"<<std::endl;
+
     std::cout<<"1 or 2: ";
     int choice;
     std::cin>>choice;
@@ -54,45 +75,50 @@ void DataManager::setHourlyOrDaily(){
         setHourlyOrDaily();
         break;
     }
-    printSavedLocation();
 }
 
-void DataManager::printSavedLocation(){
-    if(!location.Location.empty()) std::cout <<"\n"<< "SAVED LOCATIONS" << std::endl;
-    for (const auto& loc : location.Location) // prints out all saved locations
-    {
-        std::cout << "Locaton name: "<<loc.first << std::endl;
-    }
-    idkk();
-}
+void DataManager::locationSelectionHandler(){
+    std::cout <<"\n"<< "SEARCH LOCATIONS" << std::endl;
 
-void DataManager::idkk()
-{
-    std::cout << "Type location name: ";
+
+    std::cout << "Type location name or id: ";
     std::string locationName;
     std::cin >> locationName;
 
-    std::pair<double, double>geocoordinates = location.Location[locationName][0];
-    userSettings.latitudeAsString = std::to_string(geocoordinates.first);
-    userSettings.longitudeAsString = std::to_string(geocoordinates.second);
 
+    std::string searchResults;
 
-
-    std::vector<std::pair<std::string, std::string>> Variables;
-
-    switch(userSettings.option)
+    if(locationName.find("{") == std::string::npos && locationName.find("}") == std::string::npos)
     {
-        case 2:
-        ptr = &weatherdata;
-        break;
-        case 3:
-        ptr = &historicalWeatherData;
-        break;
-        case 4:
-        ptr = &airQualityData;
-        break;
+        searchResults = location.searchForLocation(locationName);
+    }
+    else
+    {
+        std::cout<<"Invalid Character"<<std::endl;
+        locationSelectionHandler();
+        return;
     }
 
+
+
+    if (searchResults == "Too many Results" || searchResults == "No Results" )
+    {
+        locationSelectionHandler();
+        return;
+    }
+
+    std::pair<double, double>geocoordinates = location.Location[searchResults][0];
+    userSettings.latitudeAsString = std::to_string(geocoordinates.first);
+    userSettings.longitudeAsString = std::to_string(geocoordinates.second);
+//  getWeatherVariables();
+}
+
+
+
+
+void DataManager::getWeatherVariables()
+{
+    std::vector<std::pair<std::string, std::string>> Variables;
 
     Variables = ptr->getVariables();
     handleVariableSelections(Variables);
@@ -305,22 +331,7 @@ void DataManager::handlePressure()
 
 void DataManager::getData()
 {
-
     std::string url;
-
-    switch(userSettings.option)
-    {
-        case 2:
-        ptr = &weatherdata;
-        break;
-        case 3:
-        ptr = &historicalWeatherData;
-        break;
-        case 4:
-        ptr = &airQualityData;
-        break;
-    }
-
     url = ptr->getUrl();
     DataJson = api.fetchJsonData(url);
     std::cout<<url<<std::endl;
@@ -358,6 +369,9 @@ void DataManager::displayData(std::string hourlyOrDaily)
                     }
                 }
             }
+                DataExporter dataExporter(ptr->getUrl());
+
+                dataExporter.loadDataExporterMenu();
                 userSettings.userVariablesVec.clear();
                 userSettings.userVariablesStr.clear();
                 userSettings.modelVec.clear();
