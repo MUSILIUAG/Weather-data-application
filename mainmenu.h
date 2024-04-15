@@ -5,6 +5,8 @@
 #include "weatherdatamanager.h"
 #include "airqualitydatamanager.h"
 #include "historicalweatherdatamanager.h"
+#include "utility.h"
+
 
 
 
@@ -13,6 +15,7 @@ extern UserPreferences userSettings;
 extern WeatherDataManager weatherdata;
 extern AirQualityDataManager airQualityData;
 extern HistoricalWeatherDataManager historicalWeatherData;
+extern Utility utility;
 
 
 class MainMenu
@@ -21,8 +24,10 @@ public:
 
     MainMenu();
     void loadMainMenu();
+
+private:
     void navToSelectedMenu();
-    void displayWeatherData();
+
 };
 
 #endif // MAINMENU_H

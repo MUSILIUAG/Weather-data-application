@@ -12,10 +12,19 @@ public:
     WeatherDataManager();
     std::string getUrl() const override;
     std::vector<std::pair<std::string, std::string>> getVariables() const override;
+    void handleVariableSelections(std::vector<std::pair<std::string, std::string>> allVariables) const override;
+    void handleSolar() const;
+
+
+
 
 
 private:
-    struct Variables{
+    void handleAdditionalVariables() const;
+    void handlePressure() const;
+    void handleWeatherModels() const ;
+
+    struct variables{
         std::vector<std::pair<std::string, std::string>> hourlyVariables {
             {"Temperature","temperature_2m"},
             {"Relative Humidity","relative_humidity_2m"},
@@ -61,6 +70,7 @@ private:
             {"Soil Moisture (27-81 cm)","soil_moisture_27_to_81cm"},
 
             ///special Variables with extra selections
+            {"Additional Variables","Special Variable with Extra selection"},
             {"Solar Radiaton Variables","Special Variable with Extra selection"},
             {"Pressure Variables","Special Variable with Extra selection"},
             {"Weather Models","Special Variable with Extra selection"}
@@ -90,7 +100,95 @@ private:
             {"Shortwave Radiation Sum", "shortwave_radiation_sum"},
             {"ET0 FAO Evapotranspiration", "et0_fao_evapotranspiration"}
         };
+
+        std::vector<std::pair<std::string, std::string>> additionalVariables {
+             {"UV Index", "uv_index"},
+             {"UV Index Clear Sky", "uv_index_clear_sky"},
+             {"Is Day or Night", "is_day"},
+             {"CAPE", "cape"},
+             {"Freezing Level Height", "freezing_level_height"},
+             {"Sunshine Duration", "sunshine_duration"}
+        };
+        std::vector<std::pair<std::string, std::string>> weatherModels {
+            {"ECMWF IFS 0.4°", "ecmwf_ifs04"},
+            {"ECMWF IFS 0.25°", "ecmwf_ifs025"},
+            {"ECMWF AIFS 0.25°", "ecmwf_aifs025"},
+            {"CMA GRAPES Global", "cma_grapes_global"},
+            {"BOM ACCESS Global", "bom_access_global"},
+            {"MET Norway Nordic", "metno_nordic"},
+            {"GFS Seamless", "gfs_seamless"},
+            {"GFS Global", "gfs_global"},
+            {"GFS HRRR", "gfs_hrrr"},
+            {"JMA Seamless", "jma_seamless"},
+            {"JMA MSM", "jma_msm"},
+            {"JMA GSM", "jma_gsm"},
+            {"DWD ICON Seamless", "icon_seamless"},
+            {"DWD ICON Global", "icon_global"},
+            {"DWD ICON EU", "icon_eu"},
+            {"DWD ICON D2", "icon_d2"},
+            {"GEM Seamless", "gem_seamless"},
+            {"GEM Global", "gem_global"},
+            {"GEM Regional", "gem_regional"},
+            {"GEM HRDPS Continental", "gem_hrdps_continental"},
+            {"Météo-France Seamless", "meteofrance_seamless"},
+            {"Météo-France ARPEGE World", "meteofrance_arpege_world"},
+            {"Météo-France ARPEGE Europe", "meteofrance_arpege_europe"},
+            {"Météo-France AROME France", "meteofrance_arome_france"},
+            {"Météo-France AROME France HD", "meteofrance_arome_france_hd"},
+            {"ARPAE Seamless", "arpae_cosmo_seamless"},
+            {"ARPAE COSMO 2I", "arpae_cosmo_2i"},
+            {"ARPAE COSMO 2I RUC", "arpae_cosmo_2i_ruc"},
+            {"ARPAE COSMO 5M", "arpae_cosmo_5m"}
+        };
+
+        std::vector<std::pair<std::string, std::string>> solarVariables {
+            {"Shortwave Solar Radiation GHI", "shortwave_radiation"},
+            {"Direct Solar Radiation", "direct_radiation"},
+            {"Diffuse Solar Radiation DHI", "diffuse_radiation"},
+            {"Direct Normal Irradiance DNI", "direct_normal_irradiance"},
+            {"Global Tilted Radiation GTI", "global_tilted_irradiance"},
+            {"Terrestrial Solar Radiation", "terrestrial_radiation"},
+            {"Shortwave Solar Radiation GHI (Instant)", "shortwave_radiation_instant"},
+            {"Direct Solar Radiation (Instant)", "direct_radiation_instant"},
+            {"Diffuse Solar Radiation DHI (Instant)", "diffuse_radiation_instant"},
+            {"Direct Normal Irradiance DNI (Instant)", "direct_normal_irradiance_instant"},
+            {"Global Tilted Radiation GTI (Instant)", "global_tilted_irradiance_instant"},
+            {"Terrestrial Solar Radiation (Instant)", "terrestrial_radiation_instant"}
+        };
+
+
+        std::vector<std::pair<std::string, std::string>> pressureLevelDomain {
+            {"Temperature", "temperature_"},
+            {"Relative Humidity", "relative_humidity_"},
+            {"Cloud cover","cloud_cover_"},
+            {"Wind speed","wind_speed_"},
+            {"Wind Direction", "wind_direction_"},
+            {"Geopontential Height","geopotential_height_"}
+        };
+
+        std::vector<std::pair<std::string, std::string>> pressureLevel {
+        {"1000 hPa (110 m)", "1000hPa"},
+        {"975 hPa (320 m)", "975hPa"},
+        {"950 hPa (500 m)", "950hPa"},
+        {"925 hPa (800 m)", "925hPa"},
+        {"900 hPa (1000 m)", "900hPa"},
+        {"850 hPa (1500 m)", "850hPa"},
+        {"800 hPa (1900 m)", "800hPa"},
+        {"700 hPa (3 km)", "700hPa"},
+        {"600 hPa (4.2 km)", "600hPa"},
+        {"500 hPa (5.6 km)", "500hPa"},
+        {"400 hPa (7.2 km)", "400hPa"},
+        {"300 hPa (9.2 km)", "300hPa"},
+        {"250 hPa (10.4 km)", "250hPa"},
+        {"200 hPa (11.8 km)", "200hPa"},
+        {"150 hPa (13.5 km)", "150hPa"},
+        {"100 hPa (15.8 km)", "100hPa"},
+        {"70 hPa (17.7 km)", "70hPa"},
+        {"50 hPa (19.3 km)", "50hPa"},
+        {"30 hPa (22 km)", "30hPa"}
+        };
     };
+    variables weatherVariables;
 
 }; // Add a closing brace to close the class declaration
 

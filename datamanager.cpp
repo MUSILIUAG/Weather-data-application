@@ -6,6 +6,7 @@
 #include "weatherdatamanager.h"
 #include "historicalweatherdatamanager.h"
 #include "dataexporter.h"
+#include "utility.h"
 #include <set>
 #include <algorithm>
 
@@ -19,7 +20,6 @@ extern AirQualityDataManager airQualityData;
 extern HistoricalWeatherDataManager historicalWeatherData;
 
 
-DataManager* ptr;
 
 
 
@@ -34,7 +34,6 @@ void DataManager::loadDataMenu()
 
     selectDerivedClassAddress();
     locationSelectionHandler();
-    setHourlyOrDaily();
 
 }
 
@@ -55,62 +54,33 @@ void DataManager::selectDerivedClassAddress()
 }
 
 
-void DataManager::setHourlyOrDaily(){
-    std::cout<<"\n"<<"1 - HOURLY WEATHER VARIBLES"<<std::endl;
-    std::cout<<"2 - DAILY WEATHER VARIABLES"<<std::endl;
 
-    std::cout<<"1 or 2: ";
-    int choice;
-    std::cin>>choice;
 
-    switch(choice){
-    case 1:
-        userSettings.hourlyOrDaily = "hourly";
-        break;
-    case 2:
-        userSettings.hourlyOrDaily = "daily";
-        break;
-    default:
-        std::cout << "Invalid command. Please Try again \n" << std::endl;
-        setHourlyOrDaily();
-        break;
-    }
-}
 
 void DataManager::locationSelectionHandler(){
     std::cout <<"\n"<< "SEARCH LOCATIONS" << std::endl;
 
-
+    location.displayFavoriteLocation();
     std::cout << "Type location name or id: ";
     std::string locationName;
     std::cin >> locationName;
 
 
-    std::string searchResults;
+    std::string searchResults = location.searchForLocation(locationName);
 
-    if(locationName.find("{") == std::string::npos && locationName.find("}") == std::string::npos)
-    {
-        searchResults = location.searchForLocation(locationName);
-    }
-    else
-    {
-        std::cout<<"Invalid Character"<<std::endl;
-        locationSelectionHandler();
-        return;
-    }
-
-
-
-    if (searchResults == "Too many Results" || searchResults == "No Results" )
+    if (searchResults == "Too many Results" || searchResults == "No Results" || searchResults == "Invalid Character")
     {
         locationSelectionHandler();
         return;
     }
+
+
+
 
     std::pair<double, double>geocoordinates = location.Location[searchResults][0];
     userSettings.latitudeAsString = std::to_string(geocoordinates.first);
     userSettings.longitudeAsString = std::to_string(geocoordinates.second);
-//  getWeatherVariables();
+    getWeatherVariables();
 }
 
 
@@ -119,121 +89,22 @@ void DataManager::locationSelectionHandler(){
 void DataManager::getWeatherVariables()
 {
     std::vector<std::pair<std::string, std::string>> Variables;
-
     Variables = ptr->getVariables();
-    handleVariableSelections(Variables);
+    ptr->handleVariableSelections(Variables);
 
     getData();
-    displayData(userSettings.hourlyOrDaily);
-}
 
-
-
-
-
-
-std::string vectorToString(std::vector<std::string> vector)
-{
-    std::ostringstream oss;
-
-    for (size_t i = 0; i < vector.size(); ++i) {
-        if (i > 0) {
-            oss << ",";
-        }
-        oss << vector[i]; // Adds only the  code
-    }
-    return oss.str(); // Returns the comma-separated string
-}
-
-
-std::vector<std::string> stringArrayToVec(std::string choice){
-    std::istringstream iss(choice); //Gets the string array from the user
-
-    std::string key;
-    std::vector<std::string> keyToKeyVector;
-
-    // adds the values to a vector
-    while (std::getline(iss, key, ',')) {
-        keyToKeyVector.push_back(key);
-    }
-
-    std::sort(keyToKeyVector.begin(), keyToKeyVector.end());
-    return keyToKeyVector;
-
-}
-
-
-
-std::vector<std::string> handleKeySelection(std::vector<std::pair<std::string, std::string>> allVariables)
-{
-    for (unsigned long i=1; i <= allVariables.size(); i++)
+    if(DataJson.isMember("error"))
     {
-        std::cout<<i<<" - "<<allVariables[i-1].first<<std::endl;
+        std::cout <<DataJson["reason"].asString() << std::endl;
+        userSettings.userVariablesVec.clear();
+        userSettings.userVariablesStr.clear();
+        userSettings.modelVec.clear();
+        userSettings.modelStr.clear();
+        return;
     }
-        std::cout<< "choose weather variables you want displayed: ";
-        std::string choice;
-        std::cin>>choice;
 
-        return stringArrayToVec(choice);
-}
-
-
-
-
-
-void DataManager::handleVariableSelections(std::vector<std::pair<std::string, std::string>> allVariables)
-{
-
-        std::vector<std::string>KeyVector;
-        KeyVector = handleKeySelection(allVariables);
-
-        std::pair<std::string, std::string> keyToPair;
-
-        Variables variables;
-        for(auto& keyVect : KeyVector)
-        {
-
-            keyToPair = allVariables[std::stoi(keyVect)-1];
-
-                if(keyToPair.first == "Solar Radiaton Variables" )
-                {
-                handleSolar(variables.solarVariables);
-                continue;
-                }
-                else if(keyToPair.first == "Pressure Variables" )
-                {
-                 handlePressure();
-                 continue;
-                }
-                else if(keyToPair.first == "Weather Models" )
-                {
-                    handleWeatherModels(variables.WeatherModels);
-                }
-                else if(keyToPair.first == "Reanalysis Models" )
-                {
-                    handleWeatherModels(variables.reanalysisModels);
-                }
-
-
-            if (keyToPair.second != "Special Variable with Extra selection" &&
-                    std::find(variables.WeatherModels.begin(),variables.WeatherModels.end(),keyToPair) == variables.WeatherModels.end()&&
-                    std::find(variables.reanalysisModels.begin(),variables.reanalysisModels.end(),keyToPair) == variables.reanalysisModels.end()
-               )
-            {
-                userSettings.userVariablesVec.push_back(keyToPair.second);
-            }
-            else if(keyToPair.second != "Special Variable with Extra selection")
-            {
-                userSettings.modelVec.push_back(keyToPair.second);
-            }
-
-        }
-
-
-        userSettings.userVariablesStr = vectorToString(userSettings.userVariablesVec);
-        std::string temp = vectorToString(userSettings.modelVec);
-
-        if(!temp.empty()) userSettings.modelStr = "&models=" + temp;
+    displayData();
 
 }
 
@@ -244,89 +115,34 @@ void DataManager::handleVariableSelections(std::vector<std::pair<std::string, st
 
 
 
-
-
-
-
-
-
-
-void DataManager::handleSolar(std::vector<std::pair<std::string, std::string>>solarVariables)
+std::vector<std::string> DataManager::handleKeySelection(std::vector<std::pair<std::string, std::string>> allVariables) const
 {
-std::cout<<"Solar Radiation Variables"<<std::endl;
+    for (unsigned long i = 0; i < allVariables.size(); ++i)
+    {
+        std::cout << i + 1 << " - " << allVariables[i].first << std::endl;
+    }
 
-handleVariableSelections(solarVariables);
+    std::cout << "Choose weather variables you want displayed (comma-separated): ";
+    std::string choice;
+    std::cin.ignore(); // Clear the input buffer
+    std::getline(std::cin, choice);
 
-std::string tilt;
-std::string azimuth;
+    std::vector<std::string> choices = Utility::stringArrayToVec(choice);
 
-std::cout<<"Tilt: ";
-std::cin >> tilt;
-std::cout<<"Azimuth: ";
-
-std::cin>>azimuth;
-userSettings.solarTiltAndAzimuth = "&tilt=" + tilt +"&azimuth=" + azimuth;
-}
-
-
-void DataManager::handleWeatherModels(std::vector<std::pair<std::string, std::string>> weatherModels)
-{
-    std::cout<<"Weather Models"<<std::endl;
-    handleVariableSelections(weatherModels);
-}
-
-
-void DataManager::handleReanalysisModels(std::vector<std::pair<std::string, std::string>> reanalysisModels)
-{
-    std::cout<<"Reanalysis Models"<<std::endl;
-    handleVariableSelections(reanalysisModels);
-}
-
-void DataManager::handlePressure()
-{
-    std::vector<std::pair<std::string, std::string>> Domain {
-        {"Temperature", "temperature_"},
-        {"Relative Humidity", "relative_humidity_"},
-        {"Cloud cover","cloud_cover_"},
-        {"Wind speed","wind_speed_"},
-        {"Wind Direction", "wind_direction_"},
-        {"Geopontential Height","geopotential_height_"}
-    };
-
-    std::vector<std::pair<std::string, std::string>> PressureLevel {
-    {"1000 hPa (110 m)", "1000hPa"},
-    {"975 hPa (320 m)", "975hPa"},
-    {"950 hPa (500 m)", "950hPa"},
-    {"925 hPa (800 m)", "925hPa"},
-    {"900 hPa (1000 m)", "900hPa"},
-    {"850 hPa (1500 m)", "850hPa"},
-    {"800 hPa (1900 m)", "800hPa"},
-    {"700 hPa (3 km)", "700hPa"},
-    {"600 hPa (4.2 km)", "600hPa"},
-    {"500 hPa (5.6 km)", "500hPa"},
-    {"400 hPa (7.2 km)", "400hPa"},
-    {"300 hPa (9.2 km)", "300hPa"},
-    {"250 hPa (10.4 km)", "250hPa"},
-    {"200 hPa (11.8 km)", "200hPa"},
-    {"150 hPa (13.5 km)", "150hPa"},
-    {"100 hPa (15.8 km)", "100hPa"},
-    {"70 hPa (17.7 km)", "70hPa"},
-    {"50 hPa (19.3 km)", "50hPa"},
-    {"30 hPa (22 km)", "30hPa"}
-    };
-
-    std::vector<std::string> doma = handleKeySelection(Domain);
-    std::vector<std::string> prejure = handleKeySelection(PressureLevel);
-
-    for(auto& i : doma){
-        for(auto& j:prejure){
-            userSettings.userVariablesVec.push_back(Domain[std::stoi(i)-1].second + PressureLevel[std::stoi(j)-1].second);
+    // Validate each choice
+    for (const auto& c : choices) {
+       unsigned int index = std::stoi(c);
+        if (index < 1 || index > allVariables.size()) {
+            std::cerr << "Invalid choice: " << index << ". Please enter a number between 1 and " << allVariables.size() << std::endl;
+            return {}; // Return an empty vector to indicate failure
         }
     }
 
-
-
+    return choices;
 }
+
+
+
 
 
 void DataManager::getData()
@@ -334,14 +150,20 @@ void DataManager::getData()
     std::string url;
     url = ptr->getUrl();
     DataJson = api.fetchJsonData(url);
-    std::cout<<url<<std::endl;
 }
 
 
 
 
-void DataManager::displayData(std::string hourlyOrDaily)
+void DataManager::displayData()
 {
+    std::string hourlyOrDaily = "hourly";
+
+    if(DataJson.isMember("daily"))
+    {
+        hourlyOrDaily = "daily";
+    }
+
     const auto& hourlyOrDailyKey = DataJson[hourlyOrDaily];
     const auto& timeKeyValue = hourlyOrDailyKey["time"];
     int forecastDays = 1;
@@ -350,6 +172,7 @@ void DataManager::displayData(std::string hourlyOrDaily)
         for(unsigned int i = 0; i < timeKeyValue.size(); i++)
         {
             if((i == 0 || i%24 == 0) && hourlyOrDaily == "hourly" )
+
             {
                 std::cout<<"\n"<<"<<<<<<<<<<<<< DAY "<<forecastDays<<" >>>>>>>>>>>>>"<<std::endl; // Prints out what days forecast is being displayed
                 forecastDays++; //changes the day to the next day
@@ -369,12 +192,43 @@ void DataManager::displayData(std::string hourlyOrDaily)
                     }
                 }
             }
-                DataExporter dataExporter(ptr->getUrl());
 
+                DataExporter dataExporter(ptr->getUrl());
                 dataExporter.loadDataExporterMenu();
+
+
                 userSettings.userVariablesVec.clear();
                 userSettings.userVariablesStr.clear();
                 userSettings.modelVec.clear();
+                userSettings.modelStr.clear();
 }
 
+
+
+
+std::string DataManager::setHourlyOrDaily() const
+{
+    std::cout<<"\n"<<"1 - HOURLY WEATHER VARIBLES"<<std::endl;
+    std::cout<<"2 - DAILY WEATHER VARIABLES"<<std::endl;
+
+
+    int userchoice = Utility::getIntegerInput();
+
+    switch(userchoice){
+    case 1:
+        userSettings.hourlyOrDaily ="hourly";
+        return userSettings.hourlyOrDaily ;
+        break;
+    case 2:
+        userSettings.hourlyOrDaily ="daily";
+        return userSettings.hourlyOrDaily ;
+
+        break;
+    default:
+        std::cout << "Invalid command. Please Try again \n" << std::endl;
+        setHourlyOrDaily();
+        break;
+    }
+    return "";
+}
 

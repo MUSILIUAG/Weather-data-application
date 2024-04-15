@@ -6,6 +6,7 @@
 #include "datamanager.h"
 #include "historicalweatherdatamanager.h"
 #include "apicontroller.h"
+#include "utility.h"
 #include <iostream>
 
 LocationManager location;
@@ -34,26 +35,20 @@ void MainMenu::loadMainMenu()
 
 void MainMenu::navToSelectedMenu()
 {
-    std::cout <<"\n"<< "choose between 1 and 6: ";
-    int choice;
-    if (!(std::cin >> choice)) {
-            std::cin.clear(); // clear the failbit
-            std::cin.ignore(256, '\n'); // discard invalid input
-            std::cerr << "Invalid input. Please enter an integer." << std::endl;
-            loadMainMenu();
-            return;
-        }
 
-    if (location.Location.empty() && (choice > 1 && choice < 4))
+    int userChoice = Utility::getIntegerInput();
+
+
+    if (location.Location.empty() && (userChoice > 1 && userChoice < 4))
     {
-        std::cout <<"\n"<<" << You have Saved locations (Click 1 for Location Queries) >>";
+        std::cout <<"\n"<<" << You have No Saved locations (Click 1 for Location Queries) >>";
         loadMainMenu();
         return;
 
     }
 
-    userSettings.option = choice;
-    switch(choice)
+    userSettings.option = userChoice;
+    switch(userChoice)
     {
         case 1:
             location.loadLocationMenu();
@@ -79,7 +74,7 @@ void MainMenu::navToSelectedMenu()
             //Exit the program
             break;
         default:
-            std::cout << "Invalid command. Please Try again \n" << std::endl;
+            std::cout <<"\n"<< "Invalid command. Please Try again \n" << std::endl;
             loadMainMenu();
             break;
     }

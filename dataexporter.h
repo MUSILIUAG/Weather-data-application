@@ -10,9 +10,10 @@ public:
 
 
     void loadDataExporterMenu();
-    void navToExporter();
     void exportData();
 
+private:
+    void navToExporter();
 };
 
 #endif // DATAEXPORTER_H

@@ -1,6 +1,9 @@
 #include "userpreferences.h"
 #include <iostream>
 #include <vector>
+#include "utility.h"
+
+
 
 UserPreferences::UserPreferences(){}
 
@@ -21,9 +24,11 @@ void UserPreferences::loadUserSettingsMenu()
     std::cout<<"1 - Temperature Unit: "<<currentTemperatureUnit<<std::endl;
     std::cout<<"2 - Wind Speed Unit: "<<currentWindSpeedUnit<<std::endl;
     std::cout<<"3 - Percipitation Units: "<<currentPercipitationUnit<<std::endl;
-    std::cout<<"4 - Day Range: "<<dayRange<<std::endl;
-    std::cout<<"5 - Historical data:  Start Date: "<<startDate<<", End date: " <<endDate<<std::endl;
-    std::cout<<"6 - NONE (exit menu)"<<std::endl;
+    std::cout<<"4 - Time Zone: "<<currentTimeZone<<std::endl;
+    std::cout<<"5 - Day Range: "<<dayRange<<std::endl;
+    std::cout<<"6 - Historical data:  Start Date: "<<startDate<<", End date: " <<endDate<<std::endl;
+    std::cout<<"7 - Air Quality Domain: "<<currentDomain<<std::endl;
+    std::cout<<"8 - NONE (exit menu)"<<std::endl;
 
     changeCurrentSettings();
 }
@@ -34,31 +39,38 @@ void UserPreferences::changeCurrentSettings()
 {
     std::cout<<"What unit do you want to change: ";
 
-    int choice;
-    std::cin>>choice;
-
-    switch(choice)
+    int userChoice = Utility::getIntegerInput();
+    switch(userChoice)
     {
         case 1:
-            changedisplayUnit(temperatureUnits,currentTemperatureUnit);
+            changedisplayUnit(allUnits.temperatureUnits,currentTemperatureUnit);
             loadUserSettingsMenu();
             break;
         case 2:
-            changedisplayUnit(windSpeedUnits,currentWindSpeedUnit);
+            changedisplayUnit(allUnits.windSpeedUnits,currentWindSpeedUnit);
             loadUserSettingsMenu();
             break;
         case 3:
-            changedisplayUnit(percipitationUnits,currentPercipitationUnit);
+            changedisplayUnit(allUnits.percipitationUnits,currentPercipitationUnit);
             loadUserSettingsMenu();
             break;
         case 4:
-            setDayRange();
+            changedisplayUnit(allUnits.timeZones,currentTimeZone);
             loadUserSettingsMenu();
             break;
         case 5:
+            setDayRange();
+            loadUserSettingsMenu();
+            break;
+        case 6:
             setHistoricalDataRange();
             loadUserSettingsMenu();
-        case 6:
+            break;
+        case 7:
+            changedisplayUnit(allUnits.domains,currentDomain);
+            loadUserSettingsMenu();
+            break;
+        case 8:
             //Exit menu
             break;
         default:
@@ -82,37 +94,56 @@ void UserPreferences::changedisplayUnit(std::vector<std::string>& units, std::st
     }
 
 
-    std::cout<<"choose: ";
-    int choice;
-    std::cin>>choice;
 
-    unit = units[choice - 1];
+
+    unsigned int userChoice = Utility::getIntegerInput();
+
+    // Check if the choice is within the valid range
+    if (userChoice >= 1 && userChoice <= units.size()) {
+           unit = units[userChoice - 1];
+    }
+    else {
+        std::cout << "Invalid choice!" << std::endl;
+        changedisplayUnit(units,unit);
+    }
+
+
+
+
 }
 
 
 void UserPreferences::setDayRange()
 {
-    std::cout<<"choose day range: ";
-    std::string userDayRangeInput;
-    std::cin>>userDayRangeInput;
+    std::cout<<"choose day range"<<std::endl;
+    int userChoice;
 
-    dayRange = userDayRangeInput; //changes day range to what the user types in
+    do
+    {
+        std::cout<<"Make Sure Day is within 0 - 16"<<"\n"<<std::endl;
+        std::cout<<"Day"<<std::endl;
+        userChoice = Utility::getIntegerInput();
+    } while (!Utility::isWithinRange(userChoice,0,16));
+
+
+    dayRange = std::to_string(userChoice); //changes day range to what the user types in
 }
 
-void UserPreferences::setHistoricalDataRange()
-{
+void UserPreferences::setHistoricalDataRange() {
+    std::string userStartDateInput, userEndDateInput;
 
+    do {
+        std::cout << "Date format: yyyy-mm-dd" << std::endl;
+        std::cout << "Choose start date: ";
+        std::cin >> userStartDateInput;
+    } while (!Utility::isValidDateFormat(userStartDateInput));
 
-    std::cout<<"date format - yyyy-mm-dd"<<std::endl;
-    std::cout<<"choose start date: ";
-    std::string userStartDateInput;
-    std::cin>>userStartDateInput;
-
-    std::cout<<"choose end date: ";
-    std::string userEndDateInput;
-    std::cin>>userEndDateInput;
+    do {
+        std::cout << "Choose end date: ";
+        std::cin >> userEndDateInput;
+    } while (!Utility::isValidDateFormat(userEndDateInput));
 
     startDate = userStartDateInput;
-    endDate= userEndDateInput;
+    endDate = userEndDateInput;
 }
 

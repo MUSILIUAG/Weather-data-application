@@ -8,17 +8,19 @@ extern UserPreferences userSettings;
 class HistoricalWeatherDataManager:public DataManager
 {
 public:
-
+    HistoricalWeatherDataManager();
 
     std::string getUrl() const override;
     std::vector<std::pair<std::string, std::string>> getVariables() const override;
+    void handleVariableSelections(std::vector<std::pair<std::string, std::string>> allVariables) const override;
 
 
-
-    HistoricalWeatherDataManager();
 
 private:
-    struct Variables
+    void handleReanalysisModels() const;
+
+
+    struct variables
     {
         std::vector<std::pair<std::string, std::string>> hourlyVariables {
             {"Temperature","temperature_2m"},
@@ -56,9 +58,9 @@ private:
 
             ///special Varibles with extra selections
             {"Solar Radiaton Variables","Special Variable with Extra selection"},
-            {"Pressure Variables","Special Variable with Extra selection"},
             {"Reanalysis Models","Special Variable with Extra selection"}
         };
+
 
         std::vector<std::pair<std::string, std::string>> dailyVariables {
             {"Weather Code", "weather_code"},
@@ -82,7 +84,17 @@ private:
             {"Shortwave Radiation Sum", "shortwave_radiation_sum"},
             {"ET0 FAO Evapotranspiration", "et0_fao_evapotranspiration"}
         };
+
+        std::vector<std::pair<std::string, std::string>> reanalysisModels {
+            {"ECMWF IFS (9 km, Global, 2017 onwards)", "ecmwf_ifs"},
+            {"ERA5-Seamless (ERA5 & ERA5-Land combined)", "era5_seamless"},
+            {"ERA5 (25 km, Global)", "era5"},
+            {"ERA5-Land (10 km, Global)", "era5_land"},
+            {"CERRA (5 km, Europe, 1985 to June 2021)", "cerra"}
+        };
     };
+    variables historicalWeather;
+
 };
 
 #endif // HISTORICALWEATHERDATAMANAGER_H

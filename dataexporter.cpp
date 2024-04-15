@@ -3,8 +3,11 @@
 #include <fstream>
 #include "apicontroller.h"
 
-APIController apiController;
 
+
+
+
+APIController apiController;
 std::string baseUrl;
 
 
@@ -28,7 +31,7 @@ void DataExporter::loadDataExporterMenu()
 
 void DataExporter::navToExporter( )
 {
-    std::cout <<"\n"<< "choose between 1 and 6: ";
+    std::cout <<"\n"<< "choose 1 - 2: ";
     int choice;
     std::cin>>choice;
 

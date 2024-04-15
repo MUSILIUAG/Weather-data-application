@@ -6,8 +6,8 @@
 #include <fstream>
 #include <algorithm>
 #include <sstream>
+#include "utility.h"
 #include "datamanager.h"
-
 
 
 APIController::APIController(){}
@@ -70,21 +70,7 @@ size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
     return fwrite(ptr, size, nmemb, stream);
 }
 
-// Convert string to lowercase
-void to_lower(std::string &str) {
-    std::transform(str.begin(), str.end(), str.begin(), ::tolower);
-}
 
-// Get file extension from URL
-std::string get_extension_from_url(const std::string &url) {
-    size_t dot_pos = url.find_last_of("=");
-    if (dot_pos != std::string::npos) {
-        std::string ext = url.substr(dot_pos + 1);
-        to_lower(ext);
-        return ext;
-    }
-    return "";
-}
 
 void APIController::fetchDataToDownload(std::string url) {
     CURL *curl;
@@ -97,7 +83,7 @@ void APIController::fetchDataToDownload(std::string url) {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 
         // Open a file to write the downloaded data
-        std::string file_ext = get_extension_from_url(url);
+        std::string file_ext = Utility::getExtensionFromUrl(url);
         std::string file_name = "downloaded_file." + file_ext;
         file = fopen(file_name.c_str(), "wb");
         if (!file) {
@@ -116,8 +102,8 @@ void APIController::fetchDataToDownload(std::string url) {
             std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
         } else {
             // Check the content type to determine the file extension
-            std::string content_type = get_extension_from_url(url);
-            to_lower(content_type);
+            std::string content_type = Utility::getExtensionFromUrl(url);
+            Utility::toLower(content_type);
             if (file_ext == "csv")
             {
                 // File is CSV
@@ -148,47 +134,4 @@ void APIController::fetchDataToDownload(std::string url) {
         std::cerr << "Error initializing curl" << std::endl;
     }
 }
-
-
-
-
-
-
-
-//void APIController::test() {
-//    // Initialize Firebase
-//    firebase::AppOptions options;
-//    options.set_database_url("https://your-project-id.firebaseio.com");
-//    firebase::App::Create(options);
-
-//    // Access the Firestore instance
-//    firebase::firestore::Firestore* firestore = firebase::firestore::Firestore::GetInstance();
-
-//    // Parse the JSON data from weatherData.weatherDataJson
-//    Json::Value jsonData = weatherData.weatherDataJson; // Assuming weatherData is an instance of WeatherDataManager
-
-//    // Create a map to hold the weather data
-//    firebase::firestore::MapFieldValue weatherDataFirestore;
-
-//    // Assuming the JSON structure contains temperature and humidity fields
-//    weatherDataFirestore["temperature"] = firebase::firestore::FieldValue::Double(jsonData["temperature_2m"].asDouble());
-//    weatherDataFirestore["humidity"] = firebase::firestore::FieldValue::Double(jsonData["relative_humidity_2m"].asDouble());
-
-//    // Add the weather data to the Firestore collection
-//    firestore->Collection("weather_collection").Add(weatherDataFirestore).OnCompletion(
-//        [](const firebase::Future<firebase::firestore::DocumentReference>& future) {
-//            if (future.error() == firebase::firestore::kErrorNone) {
-//                std::cout << "Data added successfully" << std::endl;
-//            } else {
-//                std::cerr << "Error adding data to Firestore: " << future.error_message() << std::endl;
-//            }
-//        }
-//    );
-
-//    // Cleanup
-//    // No need to delete Firestore and App objects immediately. Let them live until the operation is complete.
-//    // delete firestore;
-//    // delete app;
-//}
-
 

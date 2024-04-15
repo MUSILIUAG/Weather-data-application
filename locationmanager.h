@@ -14,15 +14,28 @@ public:
         {"{1} lagos",{{6.4541,3.3947}}}
     }; // location id location name {latitude, longitude}
 
+    std::vector<std::string> favoriteLocations;
+
 
     LocationManager();
     void loadLocationMenu();
     void addLocation();
     void navToSelectedMenu();
     void removeLocation();
-    void modifyLocation();
-    void setFavouriteLocaton();
+
+    void selectLocationToModify();
+    void modifyLocationMenu();
+    void modifyLocationName();
+    void modifyLongitude();
+    void modifyLatitude();
+
+    void displayFavoriteLocation();
+    void setFavoriteLocaton();
+    void removeFavoriteLocation();
+
     std::string searchForLocation(std::string locationNameOrId);
+
+    std::string getId(std::string key);
 
 };
 
